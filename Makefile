@@ -9,7 +9,7 @@ SOURCES = source/${PROGRAMS:=.cpp}
 all: ${PROGRAMS} move
 
 ${PROGRAMS}: ${SOURCES}
-	g++ ${CCFLAGS} -Wall -Iinclude -lrf24-bcm source/$@.cpp -o $@
+	g++ ${CCFLAGS} -Wall -Iinclude -lrf24-bcm $^ -o $@
 
 clean:
 	rm -rf bin/$(PROGRAMS)
