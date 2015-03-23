@@ -10,10 +10,16 @@ RF24 radio(RPI_BPLUS_GPIO_J8_15,RPI_BPLUS_GPIO_J8_24, BCM2835_SPI_SPEED_8MHZ);
 
 struct data_to_send
 {
-  int result;
-  double temperature;
-  double humidity;
-}__attribute__((packed));
+    int result;
+    int temperature;
+    int humidity;
+};
+
+struct message
+{
+    int node;
+    data_to_send data;
+};
 
 void setup(void)
 {
@@ -40,11 +46,14 @@ void loop(void)
     if (radio.available())
     {
         // dump the payloads until we've got everything
-        data_to_send receivedData = {0};
+        message receivedData = {0};
         radio.read(&receivedData, sizeof(data_to_send));
-        printf("Received retVal: %i, temperature: %f deg. Celsius, humidity %f %% \n", receivedData.result, 
-                                                                                       receivedData.temperature, 
-                                                                                       receivedData.humidity );
+        if (receivedData.node == 1)
+            printf("111111111111111 retVal: %d, temperature: %d deg. Celsius, humidity %d %% \n", receivedData.data.result, 
+                                                                                                  receivedData.data.temperature, 
+                                                                                                  receivedData.data.humidity );
+        if (receivedData.node == 2)
+            printf("222222222222222 with counter value: %d\n", receivedData.data.result);
     }
 }
 
