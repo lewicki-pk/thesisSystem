@@ -47,7 +47,7 @@ void loop(void)
     {
         // dump the payloads until we've got everything
         message receivedData = {0};
-        radio.read(&receivedData, sizeof(data_to_send));
+        radio.read(&receivedData, sizeof(message));
         if (receivedData.node == 1)
             printf("111111111111111 retVal: %d, temperature: %d deg. Celsius, humidity %d %% \n", receivedData.data.result, 
                                                                                                   receivedData.data.temperature, 
