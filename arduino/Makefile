@@ -2,12 +2,14 @@ CXX=avr-g++
 LD=avr-gcc
 INCLUDE=-I ~/include/arduino/
 INCLUDE+=-I inc
+INCLUDE+=-I common
 LIBS=-L ~/lib -lm -larduino 
 LD_FLAGS=-L ~/lib -lm -larduino 
 MCU=-mmcu=atmega328p
 CPU_SPEED=-DF_CPU=8000000L
 ARDUINO_FLAGS=-DARDUINO=157 -DARDUINO_AVR_PRO -DARDUINO_ARCH_AVR
 CFLAGS=$(MCU) $(CPU_SPEED) -g -Os -w -fno-exceptions -ffunction-sections -fdata-sections -MMD $(ARDUINO_FLAGS)
+CFLAGS+=-std=c++11
 
 #-Os -w -Wl,--gc-sections -ffunction-sections -fdata-sections
 #TODO:this needs to be automated

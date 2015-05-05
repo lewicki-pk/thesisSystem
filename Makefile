@@ -3,6 +3,8 @@ CC=g++
 CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
 # Add all warnings
 CCFLAGS+=-Wall
+# Add c++11 support
+CCFLAGS+=-std=c++11
 
 # define all programs
 PROGRAMS = receiver

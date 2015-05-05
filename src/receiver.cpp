@@ -5,21 +5,9 @@
 #include <iostream>
 #include <RF24/RF24.h>
 
+#include <CommonMessages.h>
 // ce,csn pins
 RF24 radio(RPI_BPLUS_GPIO_J8_15,RPI_BPLUS_GPIO_J8_24, BCM2835_SPI_SPEED_8MHZ);
-
-struct data_to_send
-{
-    int result;
-    int temperature;
-    int humidity;
-};
-
-struct message
-{
-    int node;
-    data_to_send data;
-};
 
 void setup(void)
 {
@@ -46,14 +34,16 @@ void loop(void)
     if (radio.available())
     {
         // dump the payloads until we've got everything
-        message receivedData = {0};
-        radio.read(&receivedData, sizeof(message));
-        if (receivedData.node == 1)
-            printf("111111111111111 retVal: %d, temperature: %d deg. Celsius, humidity %d %% \n", receivedData.data.result, 
-                                                                                                  receivedData.data.temperature, 
-                                                                                                  receivedData.data.humidity );
-        if (receivedData.node == 2)
-            printf("222222222222222 with counter value: %d\n", receivedData.data.result);
+        Message receivedData = {0};
+        radio.read(&receivedData, sizeof(Message));
+        if (receivedData.header.nodeId == 1)
+            TempSensorData data = receivedData.msgData;
+            printf("1111 retVal: %d, temperature: %d deg. Celsius, humidity %d %% \n", data.result, 
+                                                                                       data.temperature, 
+                                                                                       data.humidity );
+        if (receivedData.header.nodeId == 2)
+            TempSensorData data = receivedData.msgData;
+            printf("2222 with counter value: %d\n", data.result);
     }
 }
 
