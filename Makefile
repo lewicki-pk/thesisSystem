@@ -1,4 +1,4 @@
-CC=g++
+CC=g++-4.9
 # The recommended compiler flags for the Raspberry Pi
 CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
 # Add all warnings
@@ -11,6 +11,7 @@ PROGRAMS = receiver
 SOURCES = src/${PROGRAMS:=.cpp}
 
 INCLUDE=-Iinc
+INCLUDE+=-Icommon
 
 LDFLAGS=-lrf24-bcm
 

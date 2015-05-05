@@ -36,14 +36,16 @@ void loop(void)
         // dump the payloads until we've got everything
         Message receivedData = {0};
         radio.read(&receivedData, sizeof(Message));
-        if (receivedData.header.nodeId == 1)
-            TempSensorData data = receivedData.msgData;
+        if (receivedData.header.nodeId == 1) {
+            TempSensorData data = receivedData.msgData.tempSensorData;
             printf("1111 retVal: %d, temperature: %d deg. Celsius, humidity %d %% \n", data.result, 
                                                                                        data.temperature, 
                                                                                        data.humidity );
-        if (receivedData.header.nodeId == 2)
-            TempSensorData data = receivedData.msgData;
+        }
+        if (receivedData.header.nodeId == 2) {
+            TempSensorData data = receivedData.msgData.tempSensorData;
             printf("2222 with counter value: %d\n", data.result);
+        }
     }
 }
 
