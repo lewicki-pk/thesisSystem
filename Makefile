@@ -14,19 +14,21 @@ OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 INCLUDE=-Iinc
 INCLUDE+=-Icommon
 
-#LDFLAGS=-lrf24-bcm
+LDFLAGS=-lstdc++ -lrf24-bcm
 
 
 all: ${PROGRAMS} move
 
 ${PROGRAMS}: ${OBJ_FILES}
-	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@
+	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@ ${LDFLAGS}
 
 clean:
 	rm -rf bin/$(PROGRAMS)
+	rm -rf obj/*.o
 
 move: ${PROGRAMS}
-	mv $(PROGRAMS) ./bin
+	mv $(PROGRAMS) ./bin/
 
 obj/%.o: src/%.cpp
 	$(CXX) $(CFLAGS) $(INCLUDE) -c -o $@ $<
+

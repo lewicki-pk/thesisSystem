@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <iostream>
-#include <RF24/RF24.h>
+#include <RF24.h>
 
 #include <CommonMessages.h>
 // ce,csn pins
