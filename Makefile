@@ -1,28 +1,32 @@
-CC=g++-4.9
+CXX=g++-4.9
 # The recommended compiler flags for the Raspberry Pi
-CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
+CFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
 # Add all warnings
-CCFLAGS+=-Wall
+CFLAGS+=-Wall
 # Add c++11 support
-CCFLAGS+=-std=c++11
+CFLAGS+=-std=c++11
 
 # define all programs
 PROGRAMS = receiver
-SOURCES = src/${PROGRAMS:=.cpp}
+CPP_FILES = $(wildcard src/*.cpp)
+OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 INCLUDE=-Iinc
 INCLUDE+=-Icommon
 
-LDFLAGS=-lrf24-bcm
+#LDFLAGS=-lrf24-bcm
 
 
 all: ${PROGRAMS} move
 
-${PROGRAMS}: ${SOURCES}
-	${CC} ${CCFLAGS} ${INCLUDE} $^ -o $@
+${PROGRAMS}: ${OBJ_FILES}
+	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@
 
 clean:
 	rm -rf bin/$(PROGRAMS)
 
 move: ${PROGRAMS}
 	mv $(PROGRAMS) ./bin
+
+obj/%.o: src/%.cpp
+	$(CXX) $(CFLAGS) $(INCLUDE) -c -o $@ $<
