@@ -9,7 +9,7 @@ GTEST_DIR = /home/lewiatan/gtest-1.6.0
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
-CPPFLAGS += -std=c++11 -fPIC
+CPPFLAGS += -std=c++11 -fPIC --coverage
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra -pthread -DUNIT_TEST -I../inc/ -I../common/ --coverage
@@ -40,6 +40,7 @@ UnitTests : SitemapGenerator.o SitemapGeneratorTest.o $(GTEST_DIR)/make/gtest_ma
 clean : 
 	rm -rf *.o UnitTests;
 	rm -rf *.gcno
+	rm -rf *.gcda
 	rm -rf *.gcov
 	rm -rf *.info
 	rm -rf ../bin/receiver

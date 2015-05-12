@@ -4,7 +4,7 @@ CFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
 # Add all warnings
 CFLAGS+=-Wall
 # Add c++11 support
-CFLAGS+=-std=c++11
+CFLAGS+=-std=c++11 --coverage
 
 # define all programs
 PROGRAMS = thesisSystem
