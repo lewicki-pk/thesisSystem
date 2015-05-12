@@ -4,7 +4,8 @@
 #include "SensorNode.h"
 
 #include <string>
-#include vector
+#include <vector>
+#include <CommonMessages.h>
 
 
 
@@ -82,7 +83,7 @@ private:
   uint8_t temperatureValue;
   uint8_t humidityValue;
   uint8_t lastReadingStatus;
-  undef nodeStatus;
+  Status nodeStatus;
 public:
 
 
@@ -150,7 +151,7 @@ public:
    * Set the value of nodeStatus
    * @param new_var the new value of nodeStatus
    */
-  void setNodeStatus (undef new_var)   {
+  void setNodeStatus (Status new_var)   {
       nodeStatus = new_var;
   }
 
@@ -158,7 +159,7 @@ public:
    * Get the value of nodeStatus
    * @return the value of nodeStatus
    */
-  undef getNodeStatus ()   {
+  Status getNodeStatus ()   {
     return nodeStatus;
   }
 private:

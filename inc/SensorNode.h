@@ -3,7 +3,9 @@
 #define SENSORNODE_H
 
 #include <string>
-#include vector
+#include <vector>
+#include <map>
+#include <cstdint>
 
 
 
@@ -36,74 +38,13 @@ public:
    */
   virtual ~SensorNode ();
 
-  // Static Public attributes
-  //  
+  std::map<std::string, uint8_t> getNodeParametersMap();
 
-  // Public attributes
-  //  
-
-
-  // Public attribute accessor methods
-  //  
-
-
-  // Public attribute accessor methods
-  //  
-
-
-
-  /**
-   */
   void getSensorValues ()
   {
   }
 
 protected:
-
-  // Static Protected attributes
-  //  
-
-  // Protected attributes
-  //  
-
-public:
-
-
-  // Protected attribute accessor methods
-  //  
-
-protected:
-
-public:
-
-
-  // Protected attribute accessor methods
-  //  
-
-protected:
-
-
-private:
-
-  // Static Private attributes
-  //  
-
-  // Private attributes
-  //  
-
-public:
-
-
-  // Private attribute accessor methods
-  //  
-
-private:
-
-public:
-
-
-  // Private attribute accessor methods
-  //  
 
 private:
 

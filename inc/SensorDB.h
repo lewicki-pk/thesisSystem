@@ -3,116 +3,47 @@
 #define SENSORDB_H
 
 #include <string>
-#include vector
+#include <vector>
+#include <set>
 
-
+#include <SensorNode.h>
 
 /**
-  * class SensorDB
-  * 
-  */
+ * class SensorDB
+ * 
+ */
 
 class SensorDB
 {
 public:
 
-  // Constructors/Destructors
-  //  
+    SensorDB();
 
+    virtual ~SensorDB();
 
-  /**
-   * Empty Constructor
-   */
-  SensorDB ();
+    void setSensorNodeContainer(std::set<SensorNode> new_var)   {
+        sensorNodeContainer = new_var;
+    }
 
-  /**
-   * Empty Destructor
-   */
-  virtual ~SensorDB ();
+    std::set<SensorNode> getSensorNodeContainer()   {
+        return sensorNodeContainer;
+    }
 
-  // Static Public attributes
-  //  
+    SensorNode* begin() {
+        return NULL;
+    }
 
-  // Public attributes
-  //  
-
-
-  // Public attribute accessor methods
-  //  
-
-
-  // Public attribute accessor methods
-  //  
-
+    SensorNode* end() {
+        return NULL;
+    }
 
 protected:
 
-  // Static Protected attributes
-  //  
-
-  // Protected attributes
-  //  
-
-public:
-
-
-  // Protected attribute accessor methods
-  //  
-
-protected:
-
-public:
-
-
-  // Protected attribute accessor methods
-  //  
-
-protected:
-
-
 private:
 
-  // Static Private attributes
-  //  
+    std::set<SensorNode> sensorNodeContainer;
 
-  // Private attributes
-  //  
-
-  set<SensorNode> sensorNodeContainer;
-public:
-
-
-  // Private attribute accessor methods
-  //  
-
-private:
-
-public:
-
-
-  // Private attribute accessor methods
-  //  
-
-
-  /**
-   * Set the value of sensorNodeContainer
-   * @param new_var the new value of sensorNodeContainer
-   */
-  void setSensorNodeContainer (set<SensorNode> new_var)   {
-      sensorNodeContainer = new_var;
-  }
-
-  /**
-   * Get the value of sensorNodeContainer
-   * @return the value of sensorNodeContainer
-   */
-  set<SensorNode> getSensorNodeContainer ()   {
-    return sensorNodeContainer;
-  }
-private:
-
-
-  void initAttributes () ;
+    void initAttributes () ;
 
 };
 

@@ -4,22 +4,10 @@
 //  
 
 SensorDB::SensorDB () {
-initAttributes();
+    initAttributes();
 }
 
 SensorDB::~SensorDB () { }
-
-//  
-// Methods
-//  
-
-
-// Accessor methods
-//  
-
-
-// Other methods
-//  
 
 void SensorDB::initAttributes () {
 }
