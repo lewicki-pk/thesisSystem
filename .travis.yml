@@ -11,9 +11,9 @@ before_install:
 install:
 # install GTest and GMock
 - sudo apt-get -qq install libgtest-dev
-- "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /home/lewiatan/ ; cd -"
+- "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
 - sudo apt-get -qq install google-mock
-- "cd /usr/src/gmock && sudo cmake . && sudo cmake --build . && sudo mv libg* /home/lewiatan/ ; cd -"
+- "cd /usr/src/gmock && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
 # update to gcc with C++11 support
 - sudo apt-get -qq install gcc-4.9 g++-4.9
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 90
