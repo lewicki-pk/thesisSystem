@@ -12,7 +12,7 @@ GTEST_DIR = /home/lewiatan/gtest-1.6.0
 CPPFLAGS += -std=c++11 -fPIC
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -Wall -Wextra -pthread -DUNIT_TEST -I../inc/ -I../common/
+CXXFLAGS += -g -Wall -Wextra -pthread -DUNIT_TEST -I../inc/ -I../common/ --coverage
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
@@ -39,5 +39,8 @@ UnitTests : SitemapGenerator.o SitemapGeneratorTest.o $(GTEST_DIR)/make/gtest_ma
 
 clean : 
 	rm -rf *.o UnitTests;
+	rm -rf *.gcno
+	rm -rf *.gcov
+	rm -rf *.info
 	rm -rf ../bin/receiver
 	rm -rf ../obj/*.o

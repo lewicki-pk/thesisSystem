@@ -7,7 +7,7 @@ CFLAGS+=-Wall
 CFLAGS+=-std=c++11
 
 # define all programs
-PROGRAMS = receiver
+PROGRAMS = thesisSystem
 CPP_FILES = $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
