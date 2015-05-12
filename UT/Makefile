@@ -1,6 +1,7 @@
 CXX=g++-4.9
 
-GTEST_DIR = /home/lewiatan/gtest-1.6.0/
+#GTEST_DIR = /home/pi/gtest-1.6.0
+GTEST_DIR = /home/lewiatan/gtest-1.6.0
 
 # Where to find user code.
 #USER_DIR = ../src
