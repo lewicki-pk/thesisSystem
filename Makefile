@@ -24,6 +24,9 @@ OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 INCLUDE=-Iinc
 INCLUDE+=-Icommon
+ifeq ($(TARGET),travis)
+INCLUDE+=-Iarduino/arduino_lib
+endif
 
 LDFLAGS=-lstdc++ -lrf24-bcm
 

@@ -59,11 +59,7 @@
 //Everything else
 #else 
 #ifndef UNIT_TEST
-  #if ARDUINO < 100
-	#include <WProgram.h>
-  #else
 	#include <Arduino.h>
-  #endif
 #endif
 
   #include <stddef.h>
