@@ -10,7 +10,7 @@ before_install:
 - sudo apt-get -qq update
 - git clone https://github.com/lewicki-pk/RF24
 - cd RF24/
-- make install
+- PREFIX=`pwd` make install
 
 install:
 # install GTest and GMock
