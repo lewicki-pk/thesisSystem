@@ -1,6 +1,17 @@
 CXX=g++-4.9
 # The recommended compiler flags for the Raspberry Pi
-CFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
+ifeq ($(TARGET),travis)
+CFLAGS=
+else
+ifeq ($(TARGET),linux)
+CFLAGS =
+else
+CFLAGS=-mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
+
+endif
+endif
+
+CFLAGS+=-Ofast
 # Add all warnings
 CFLAGS+=-Wall
 # Add c++11 support
