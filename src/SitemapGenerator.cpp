@@ -1,14 +1,9 @@
 #include "SitemapGenerator.h"
 
-SitemapGenerator::SitemapGenerator () {
-
+SitemapGenerator::SitemapGenerator() {
 }
 
-SitemapGenerator::~SitemapGenerator () { }
-
-//  
-// Methods
-//  
+SitemapGenerator::~SitemapGenerator() {}
 
 void SitemapGenerator::generateFullSitemap()
 {
@@ -42,14 +37,4 @@ void SitemapGenerator::closeTag()
 void SitemapGenerator::addSitemapText(sensorParametersPair& paramPair)
 {
     sitemapConfigFile << "Text item=" << std::get<0>(paramPair) << "\n";
-
 }
-
-// Accessor methods
-//  
-
-
-// Other methods
-//  
-
-

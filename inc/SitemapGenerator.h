@@ -12,7 +12,7 @@
 #include <SensorDB.h>
 
 typedef std::pair<const std::string, uint8_t> sensorParametersPair;
-typedef std::map<std::string, uint8_t> sensorParametersMap;
+typedef std::multimap<std::string, uint8_t> sensorParametersMap;
 
 class SitemapGenerator
 {

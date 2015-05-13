@@ -20,6 +20,9 @@ TESTS = SitemapGeneratorTest
 GTEST_HEADERS = include/gtest/*.h \
                 include/gtest/internal/*.h
 
+test : all
+	./UnitTests
+
 all : UnitTests
 
 SitemapGenerator.o : ../src/SitemapGenerator.cpp

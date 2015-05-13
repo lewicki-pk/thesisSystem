@@ -38,6 +38,7 @@ clean:
 	rm -rf obj/*.o
 clean_all: clean
 	make clean -C UT
+	tags_clear
 
 move: ${PROGRAMS}
 	mv $(PROGRAMS) ./bin/

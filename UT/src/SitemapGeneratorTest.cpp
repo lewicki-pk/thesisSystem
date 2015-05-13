@@ -15,8 +15,10 @@ protected:
 TEST_F(SitemapGeneratorTest, generateFullSitemapValidation) {
     std::stringstream goldenSitemap;
     goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\n}\n";
+
     SitemapGenerator* testableGenerator = new SitemapGenerator();
     testableGenerator->generateFullSitemap();
+
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
 
 }

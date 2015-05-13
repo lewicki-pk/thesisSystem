@@ -7,13 +7,6 @@
 #include <map>
 #include <cstdint>
 
-
-
-/**
-  * class SensorNode
-  * 
-  */
-
 /******************************* Abstract Class ****************************
 SensorNode does not have any pure virtual methods, but its author
   defined it as an abstract class, so you should not use it directly.
@@ -24,32 +17,31 @@ class SensorNode
 {
 public:
 
-  // Constructors/Destructors
-  //  
+    SensorNode ();
+    virtual ~SensorNode ();
 
+    virtual std::multimap<std::string, uint8_t> getNodeParametersMap();
 
-  /**
-   * Empty Constructor
-   */
-  SensorNode ();
+    virtual void getNodeId() =0;
+    virtual void setNodeId() =0;
 
-  /**
-   * Empty Destructor
-   */
-  virtual ~SensorNode ();
+    virtual void getNodeType() =0;
+    virtual void setNodeType() =0;
 
-  std::map<std::string, uint8_t> getNodeParametersMap();
+    virtual void getLocation() =0;
+    virtual void setLocation() =0;
 
-  void getSensorValues ()
-  {
-  }
+    void getSensorValues ()
+    {
+    }
 
 protected:
 
 private:
 
-
-
+    uint8_t nodeId;
+    uint8_t nodeType;
+    uint8_t location;
 };
 
 #endif // SENSORNODE_H

@@ -1,33 +1,18 @@
 #include "SensorNode.h"
 #include <cstdint>
 
-// Constructors/Destructors
-//  
-
-SensorNode::SensorNode () {
+SensorNode::SensorNode() {
 }
 
-SensorNode::~SensorNode () { }
+SensorNode::~SensorNode() { }
 
-std::map<std::string, uint8_t> SensorNode::getNodeParametersMap()
+std::multimap<std::string, uint8_t> SensorNode::getNodeParametersMap()
 {
+#ifndef UNIT_TEST
     std::map<std::string, uint8_t> retValue;
 
     retValue["string"]=5;
     return retValue;
+#endif
 }
-
-
-//  
-// Methods
-//  
-
-
-// Accessor methods
-//  
-
-
-// Other methods
-//  
-
 
