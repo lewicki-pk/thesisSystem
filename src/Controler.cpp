@@ -3,9 +3,9 @@
 // Constructors/Destructors
 //  
 
-Controler::Controler() :
+Controler::Controler()
 #ifndef UNIT_TEST
-radio(RPI_BPLUS_GPIO_J8_15, RPI_BPLUS_GPIO_J8_24, BCM2835_SPI_SPEED_8MHZ)
+: radio(RPI_BPLUS_GPIO_J8_15, RPI_BPLUS_GPIO_J8_24, BCM2835_SPI_SPEED_8MHZ)
 #endif
 {
     setupConnection();

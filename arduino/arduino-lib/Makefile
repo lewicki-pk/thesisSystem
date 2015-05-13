@@ -1,15 +1,9 @@
-ifdef ($(TARGET),travis)
-CC=gcc
-CXX=g++
-AR=ar
-else
 CC=avr-gcc
 CXX=avr-g++
 AR=avr-ar
-endif
 MCU=-mmcu=atmega328p
 CPU_SPEED=-DF_CPU=8000000L
-CFLAGS=$(MCU) $(CPU_SPEED) -Os #-w
+CFLAGS+=$(MCU) $(CPU_SPEED) -Os #-w
 BOARD=arduino
 LIBNAME=lib$(BOARD).a
 INCDIR=~/include/$(BOARD)
