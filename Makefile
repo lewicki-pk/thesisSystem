@@ -26,10 +26,6 @@ OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 INCLUDE=-Iinc
 INCLUDE+=-Icommon
-ifeq ($(TARGET),travis)
-INCLUDE+=-Iarduino/arduino_lib
-endif
-
 
 
 all: ${PROGRAMS} move
@@ -40,6 +36,8 @@ ${PROGRAMS}: ${OBJ_FILES}
 clean:
 	rm -rf bin/$(PROGRAMS)
 	rm -rf obj/*.o
+clean_all: clean
+	make clean -C UT
 
 move: ${PROGRAMS}
 	mv $(PROGRAMS) ./bin/

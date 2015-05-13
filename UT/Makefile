@@ -1,8 +1,5 @@
 CXX=g++-4.9
 
-#GTEST_DIR = /home/pi/gtest-1.6.0
-GTEST_DIR = /home/lewiatan/gtest-1.6.0
-
 # Where to find user code.
 #USER_DIR = ../src
 
@@ -20,8 +17,8 @@ TESTS = SitemapGeneratorTest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
-GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
-                $(GTEST_DIR)/include/gtest/internal/*.h
+GTEST_HEADERS = include/gtest/*.h \
+                include/gtest/internal/*.h
 
 all : UnitTests
 
@@ -29,19 +26,13 @@ SitemapGenerator.o : ../src/SitemapGenerator.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@ 
 
 SitemapGeneratorTest.o : src/SitemapGeneratorTest.cpp $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(GTEST_DIR)/include -c src/SitemapGeneratorTest.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -Iinclude -c src/SitemapGeneratorTest.cpp
 
-UnitTests : SitemapGenerator.o SitemapGeneratorTest.o $(GTEST_DIR)/make/gtest_main.a ../obj/SensorNode.o ../obj/SensorDB.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(GTEST_DIR)/include $^ -o $@ -lpthread
+UnitTests : SitemapGenerator.o SitemapGeneratorTest.o make/gtest_main.a ../obj/SensorNode.o ../obj/SensorDB.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -Iinclude $^ -o $@ -lpthread
 
 ../obj/%.o: ../src/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 clean : 
-	rm -rf *.o UnitTests;
-	rm -rf *.gcno
-	rm -rf *.gcda
-	rm -rf *.gcov
-	rm -rf *.info
-	rm -rf ../bin/receiver
-	rm -rf ../obj/*.o
+	rm -rf *.o UnitTests *.gcno *.gcda *.gcov *.info ../obj/*.o;
