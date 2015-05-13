@@ -16,9 +16,9 @@ class Controler
 {
 public:
 
-    Controler ();
+    Controler();
 
-    virtual ~Controler ();
+    virtual ~Controler();
 
 
     void receiveMessages();
@@ -27,7 +27,7 @@ protected:
 
 private:
 
-    void initSensorDB ()   {
+    void initSensorDB()   {
         sensorDB = new SensorDB();
     }
 

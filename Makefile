@@ -1,13 +1,15 @@
 CXX=g++-4.9
 # The recommended compiler flags for the Raspberry Pi
 ifeq ($(TARGET),travis)
-CFLAGS=
+CFLAGS=-DUNIT_TEST
+LDFLAGS=-lstdc++
 else
 ifeq ($(TARGET),linux)
 CFLAGS =
+LDFLAGS=-lstdc++ -lrf24-bcm
 else
 CFLAGS=-mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
-
+LDFLAGS=-lstdc++ -lrf24-bcm
 endif
 endif
 
@@ -28,7 +30,6 @@ ifeq ($(TARGET),travis)
 INCLUDE+=-Iarduino/arduino_lib
 endif
 
-LDFLAGS=-lstdc++ -lrf24-bcm
 
 
 all: ${PROGRAMS} move
