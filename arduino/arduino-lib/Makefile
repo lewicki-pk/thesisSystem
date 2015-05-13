@@ -1,5 +1,12 @@
+ifdef ($(TARGET),travis)
+CC=gcc
+CXX=g++
+AR=ar
+else
 CC=avr-gcc
 CXX=avr-g++
+AR=avr-ar
+endif
 MCU=-mmcu=atmega328p
 CPU_SPEED=-DF_CPU=8000000L
 CFLAGS=$(MCU) $(CPU_SPEED) -Os #-w
@@ -26,7 +33,7 @@ OBJECTS=CDC.o HardwareSerial0.o HardwareSerial1.o HardwareSerial2.o \
         WMath.o WString.o
 
 default: $(OBJECTS)
-	avr-ar rcs $(LIBNAME) $^
+	$(AR) rcs $(LIBNAME) $^
 	mkdir -p $(INCDIR)
 	mkdir -p ~/lib/
 	cp *.h $(INCDIR)/
