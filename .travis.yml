@@ -34,7 +34,7 @@ before_script:
 
 script:
 - cd ${TRAVIS_BUILD_DIR}
-- make
+- TARGET=travis make
 - cd UT
 - make
 - sudo ./UnitTests
