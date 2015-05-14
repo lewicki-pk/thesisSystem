@@ -20,9 +20,6 @@ TESTS = SitemapGeneratorTest
 GTEST_HEADERS = include/gtest/*.h \
                 include/gtest/internal/*.h
 
-test : all
-	./UnitTests
-
 all : UnitTests
 
 SitemapGenerator.o : ../src/SitemapGenerator.cpp
@@ -36,6 +33,9 @@ UnitTests : SitemapGenerator.o SitemapGeneratorTest.o make/gtest_main.a ../obj/S
 
 ../obj/%.o: ../src/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
+
+test : all
+	./UnitTests
 
 clean : 
 	rm -rf *.o UnitTests *.gcno *.gcda *.gcov *.info ../obj/*.o;
