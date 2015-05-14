@@ -33,12 +33,10 @@ install:
 before_script:
 - cd ${TRAVIS_BUILD_DIR}
 # init coverage to 0 (optional)
-- lcov -d './obj' -d './UT' --zerocounters
+- lcov -d './obj' -d './UT/obj' --zerocounters
 
 script:
-- cd ${TRAVIS_BUILD_DIR}
-- make
-- cd UT
+- cd ${TRAVIS_BUILD_DIR}/UT
 - make
 - sudo ./UnitTests
 
@@ -46,7 +44,7 @@ after_success:
 - cd ${TRAVIS_BUILD_DIR}
 - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
 # I'm not sure what is below but above is coverage report
-- lcov -d './obj' -d './UT' --capture --output-file coverage.info
-- lcov --remove coverage.info 'UT/*' '/usr/*' --output-file coverage.info
+- lcov -d './obj' -d './UT/obj' --capture --output-file coverage.info
+- lcov --remove coverage.info './*' '/usr/*' --output-file coverage.info
 - lcov --list coverage.info
 - coveralls-lcov --repo-token rop182mpNs7yN6cYGsvdK8Q7aHFvYQ5Un coverage.info

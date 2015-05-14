@@ -1,4 +1,5 @@
 CXX=g++-4.9
+CC=cc
 
 # Where to find user code.
 #USER_DIR = ../src
@@ -9,7 +10,7 @@ CXX=g++-4.9
 CPPFLAGS += -std=c++11 -fPIC --coverage
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -Wall -Wextra -pthread -DUNIT_TEST -I../inc/ -I../common/ --coverage
+CXXFLAGS += -g -Wall -Wextra -pthread -DUNIT_TEST --coverage
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
@@ -20,22 +21,30 @@ TESTS = SitemapGeneratorTest
 GTEST_HEADERS = include/gtest/*.h \
                 include/gtest/internal/*.h
 
-all : UnitTests
+INCLUDE=-Iinclude -I../inc/ -I../common/ 
 
-SitemapGenerator.o : ../src/SitemapGenerator.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@ 
+LDFLAGS=-lpthread -lstdc++
 
-SitemapGeneratorTest.o : src/SitemapGeneratorTest.cpp $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -Iinclude -c src/SitemapGeneratorTest.cpp
+all : sources UnitTests
 
-UnitTests : SitemapGenerator.o SitemapGeneratorTest.o make/gtest_main.a ../obj/SensorNode.o ../obj/SensorDB.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -Iinclude $^ -o $@ -lpthread
+CPP_FILES = $(filter-out ../src/thesisSystem.cpp, $(wildcard ../src/*.cpp))
+OBJ_FILES := $(addprefix ../obj/,$(notdir $(CPP_FILES:.cpp=.o)))
+TEST_CPP_FILES = $(wildcard src/*.cpp)
+TEST_OBJ_FILES := $(addprefix obj/,$(notdir $(TEST_CPP_FILES:.cpp=.o)))
 
-../obj/%.o: ../src/%.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
+UnitTests : $(OBJ_FILES) $(TEST_OBJ_FILES) make/gtest_main.a
+	$(CC) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LDFLAGS)
 
 test : all
 	./UnitTests
 
 clean : 
-	rm -rf *.o UnitTests *.gcno *.gcda *.gcov *.info ../obj/*.o;
+	rm -rf UnitTests *.info ../obj/* obj/*
+
+obj/%.o: src/%.cpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
+
+sources : ${OBJ_FILES}
+
+../obj/%.o: ../src/%.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
