@@ -7,7 +7,7 @@ CC=cc
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
-CPPFLAGS += -std=c++11 -fPIC --coverage
+CPPFLAGS += -std=c++11 -fPIC
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra -pthread -DUNIT_TEST --coverage
