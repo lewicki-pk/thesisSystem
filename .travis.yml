@@ -42,7 +42,7 @@ script:
 
 after_success:
 - cd ${TRAVIS_BUILD_DIR}
-- coveralls --exclude UT --exclude arduino --exclude inc/arch --exclude inc/*.h --gcov-options '\-lp'
+- coveralls --exclude UT --exclude arduino --exclude inc/arch --gcov-options '\-lp'
 # I'm not sure what is below but above is coverage report
 # this actually does something because when I commented it out 
 # coveralls report stopped working
