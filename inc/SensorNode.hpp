@@ -7,6 +7,8 @@
 #include <map>
 #include <cstdint>
 
+#include <CommonInterfaces.hpp>
+
 /******************************* Abstract Class ****************************
 SensorNode does not have any pure virtual methods, but its author
   defined it as an abstract class, so you should not use it directly.
@@ -17,10 +19,13 @@ class SensorNode
 {
 public:
 
-    SensorNode ();
-    virtual ~SensorNode ();
+    SensorNode();
+    virtual ~SensorNode();
+    virtual SensorNode& operator= (const SensorNode& copySource) =0;
 
-    virtual std::multimap<std::string, uint8_t> getNodeParametersMap();
+    bool operator< (const SensorNode& toCompare);
+
+    virtual std::map<uint8_t, Item> getNodeParametersMap();
 
     virtual void getNodeId() =0;
     virtual void setNodeId() =0;

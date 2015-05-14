@@ -10,9 +10,10 @@
 
 #include <SensorNode.hpp>
 #include <SensorDB.hpp>
+#include <CommonInterfaces.hpp>
 
-typedef std::pair<const std::string, uint8_t> sensorParametersPair;
-typedef std::multimap<std::string, uint8_t> sensorParametersMap;
+typedef std::pair<uint8_t, Item> sensorParametersPair;
+typedef std::map<uint8_t, Item> sensorParametersMap;
 
 class SitemapGenerator
 {
@@ -35,7 +36,8 @@ private:
     void openSitemapHead();
     void openSitemapFrame();
     void closeTag();
-    void addSitemapText(sensorParametersPair& paramPair);
+    void addSitemapText(std::pair<uint8_t, Item> paramPair);
+    std::string elementTypeToString(ElementType& typeToConvert);
 
     SensorDB *sensorDBPtr;
     std::stringstream sitemapConfigFile;

@@ -1,14 +1,20 @@
-#include "SensorDB.hpp"
+#include <SensorDB.hpp>
 
-// Constructors/Destructors
-//  
-
-SensorDB::SensorDB () {
+SensorDB::SensorDB() {
     initAttributes();
 }
 
-SensorDB::~SensorDB () { }
+SensorDB::~SensorDB() { }
 
-void SensorDB::initAttributes () {
+std::set<SensorNode*>::iterator SensorDB::begin() {
+
+    return sensorNodeContainer.begin(); 
 }
 
+std::set<SensorNode*>::iterator SensorDB::end() {
+    return sensorNodeContainer.end(); 
+}
+
+void SensorDB::addSensorNode(SensorNode* newNode) {
+    sensorNodeContainer.insert(newNode);
+}

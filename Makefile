@@ -35,7 +35,7 @@ ${PROGRAMS}: ${OBJ_FILES}
 
 clean:
 	rm -rf bin/$(PROGRAMS)
-	rm -rf obj/*.o obj/*.gcda obj/*.gcno
+	rm -rf obj/*.o obj/*.gcda obj/*.gcno coverage.info
 clean_all: clean
 	make clean -C UT
 	tags_clear

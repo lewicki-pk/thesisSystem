@@ -1,4 +1,3 @@
-
 #ifndef SENSORDB_H
 #define SENSORDB_H
 
@@ -7,11 +6,6 @@
 #include <set>
 
 #include <SensorNode.hpp>
-
-/**
- * class SensorDB
- * 
- */
 
 class SensorDB
 {
@@ -29,13 +23,11 @@ public:
         return sensorNodeContainer;
     }
 
-    SensorNode* begin() {
-        return NULL;
-    }
+    std::set<SensorNode*>::iterator begin();
 
-    SensorNode* end() {
-        return NULL;
-    }
+    std::set<SensorNode*>::iterator end();
+
+    void addSensorNode(SensorNode* newNode);
 
 protected:
 
@@ -43,7 +35,7 @@ private:
 
     std::set<SensorNode*> sensorNodeContainer;
 
-    void initAttributes () ;
+    void initAttributes();
 
 };
 

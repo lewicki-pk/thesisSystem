@@ -6,67 +6,53 @@
 #include <string>
 #include <vector>
 #include <CommonMessages.hpp>
+#include <CommonInterfaces.hpp>
 
 class TemperatureNode : virtual public SensorNode
 {
 public:
 
-    TemperatureNode ();
+    TemperatureNode();
 
-    virtual ~TemperatureNode ();
-    std::multimap<std::string, uint8_t> getNodeParametersMap();
+    virtual ~TemperatureNode();
 
-    void getNodeId() =0;
-    void setNodeId() =0;
+    TemperatureNode& operator= (const TemperatureNode& copySource);
 
-    void getNodeType() =0;
-    void setNodeType() =0;
+    std::map<uint8_t, Item> getNodeParametersMap();
 
-    void getLocation() =0;
-    void setLocation() =0;
+    void getNodeId();
+    void setNodeId();
 
-    void setTemperatureValue (uint8_t new_var)   {
-        temperatureValue = new_var;
-    }
+    void getNodeType();
+    void setNodeType();
 
-    uint8_t getTemperatureValue ()   {
-        return temperatureValue;
-    }
+    void getLocation();
+    void setLocation();
 
-    void setHumidityValue (uint8_t new_var)   {
-        humidityValue = new_var;
-    }
+    void setTemperatureValue(uint8_t new_var);
 
-    uint8_t getHumidityValue ()   {
-        return humidityValue;
-    }
+    void setHumidityValue(uint8_t new_var);
 
-    void setLastReadingStatus (uint8_t new_var)   {
-        lastReadingStatus = new_var;
-    }
+    void setLastReadingStatus(uint8_t new_var);
 
-    uint8_t getLastReadingStatus ()   {
-        return lastReadingStatus;
-    }
+    uint8_t getLastReadingStatus();
 
-    void setNodeStatus (Status new_var)   {
-        nodeStatus = new_var;
-    }
+    void setNodeStatus(uint8_t new_var);
 
-    Status getNodeStatus ()   {
-        return nodeStatus;
-    }
+    uint8_t getNodeStatus();
+
+    std::map<uint8_t, Item> getNodeParametersMap();
 
 protected:
 
 private:
 
-    void initAttributes () ;
+    void initAttributes() ;
 
-    uint8_t temperatureValue;
-    uint8_t humidityValue;
     uint8_t lastReadingStatus;
-    Status nodeStatus;
+    uint8_t nodeStatus;
+    std::map<uint8_t, Item> nodeParametersMap;
+
 };
 
 #endif // TEMPERATURENODE_H

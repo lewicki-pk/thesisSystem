@@ -38,7 +38,7 @@ test : all
 	./UnitTests
 
 clean : 
-	rm -rf UnitTests *.info ../obj/* obj/*
+	rm -rf UnitTests *.info ../obj/* obj/* coverage.info result/
 
 obj/%.o: src/%.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
@@ -47,3 +47,9 @@ sources : ${OBJ_FILES}
 
 ../obj/%.o: ../src/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
+
+result :
+	lcov -d './obj' -d './UT/obj' --zerocounters
+	lcov -d './obj' -d './UT/obj' --capture --output-file coverage.info --no-external
+	genhtml -o result coverage.info
+
