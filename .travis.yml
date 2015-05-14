@@ -42,9 +42,9 @@ script:
 
 after_success:
 - cd ${TRAVIS_BUILD_DIR}
-- coveralls --exclude lib --exclude tests --gcov-options '\-lp'
+- coveralls --exclude UT --exclude arduino --exclude inc/arch --exclude inc/*.h --gcov-options '\-lp'
 # I'm not sure what is below but above is coverage report
-- lcov -d './obj' -d './UT/obj' --capture --output-file coverage.info
-- lcov --remove coverage.info './src' './inc/*.hpp' --output-file coverage.info
-- lcov --list coverage.info
+#- lcov -d './obj' -d './UT/obj' --capture --output-file coverage.info
+#- lcov --remove coverage.info './src' './inc/*.hpp' --output-file coverage.info
+#- lcov --list coverage.info
 - coveralls-lcov --repo-token rop182mpNs7yN6cYGsvdK8Q7aHFvYQ5Un coverage.info
