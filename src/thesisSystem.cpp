@@ -1,5 +1,5 @@
-#include <Controler.h>
-#include <CommonMessages.h>
+#include <Controler.hpp>
+#include <CommonMessages.hpp>
 
 int main()
 {

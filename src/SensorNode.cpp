@@ -1,4 +1,4 @@
-#include "SensorNode.h"
+#include "SensorNode.hpp"
 #include <cstdint>
 
 SensorNode::SensorNode() {

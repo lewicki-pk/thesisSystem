@@ -1,4 +1,4 @@
-#include "SitemapGenerator.h"
+#include "SitemapGenerator.hpp"
 
 SitemapGenerator::SitemapGenerator() {
 }

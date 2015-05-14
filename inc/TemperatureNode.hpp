@@ -1,11 +1,11 @@
 
 #ifndef TEMPERATURENODE_H
 #define TEMPERATURENODE_H
-#include "SensorNode.h"
+#include "SensorNode.hpp"
 
 #include <string>
 #include <vector>
-#include <CommonMessages.h>
+#include <CommonMessages.hpp>
 
 class TemperatureNode : virtual public SensorNode
 {

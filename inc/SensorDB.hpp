@@ -6,7 +6,7 @@
 #include <vector>
 #include <set>
 
-#include <SensorNode.h>
+#include <SensorNode.hpp>
 
 /**
  * class SensorDB

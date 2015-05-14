@@ -3,7 +3,7 @@
 #include <RF24.h>
 #include <dht.h>
 
-#include <CommonMessages.h>
+#include <CommonMessages.hpp>
 
 #define DHT11_PIN 5
 

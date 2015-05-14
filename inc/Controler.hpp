@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include <SensorDB.h>
-#include <CommonMessages.h>
+#include <SensorDB.hpp>
+#include <CommonMessages.hpp>
 
 #ifndef UNIT_TEST
 

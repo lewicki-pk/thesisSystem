@@ -45,6 +45,6 @@ after_success:
 - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
 # I'm not sure what is below but above is coverage report
 - lcov -d './obj' -d './UT/obj' --capture --output-file coverage.info
-- lcov --remove coverage.info './*' '/usr/*' --output-file coverage.info
+- lcov --remove coverage.info './src' './inc/*.hpp' --output-file coverage.info
 - lcov --list coverage.info
 - coveralls-lcov --repo-token rop182mpNs7yN6cYGsvdK8Q7aHFvYQ5Un coverage.info

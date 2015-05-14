@@ -1,4 +1,4 @@
-#include "TemperatureNode.h"
+#include "TemperatureNode.hpp"
 
 TemperatureNode::TemperatureNode () {
 initAttributes();

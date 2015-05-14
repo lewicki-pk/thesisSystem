@@ -8,8 +8,8 @@
 #include <string>
 #include <utility>
 
-#include <SensorNode.h>
-#include <SensorDB.h>
+#include <SensorNode.hpp>
+#include <SensorDB.hpp>
 
 typedef std::pair<const std::string, uint8_t> sensorParametersPair;
 typedef std::multimap<std::string, uint8_t> sensorParametersMap;
