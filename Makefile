@@ -31,7 +31,7 @@ INCLUDE+=-Icommon
 all: ${PROGRAMS} move
 
 ${PROGRAMS}: ${OBJ_FILES}
-	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@ ${LDFLAGS}
+	${CXX} ${CFLAGS} ${INCLUDE} $^ -o $@ ${LDFLAGS}
 
 clean:
 	rm -rf bin/$(PROGRAMS)

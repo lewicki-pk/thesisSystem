@@ -1,5 +1,4 @@
 CXX=g++-4.9
-CC=cc
 
 # Where to find user code.
 #USER_DIR = ../src
@@ -33,7 +32,7 @@ TEST_CPP_FILES = $(wildcard src/*.cpp)
 TEST_OBJ_FILES := $(addprefix obj/,$(notdir $(TEST_CPP_FILES:.cpp=.o)))
 
 UnitTests : $(OBJ_FILES) $(TEST_OBJ_FILES) make/gtest_main.a
-	$(CC) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LDFLAGS)
 
 test : all
 	./UnitTests
