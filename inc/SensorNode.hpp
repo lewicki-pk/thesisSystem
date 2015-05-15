@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <utility>
 #include <cstdint>
 
 #include <CommonInterfaces.hpp>
@@ -25,16 +26,16 @@ public:
 
     bool operator< (const SensorNode& toCompare);
 
-    virtual std::map<uint8_t, Item> getNodeParametersMap();
+    virtual std::map<uint8_t, Item> getNodeParametersMap() =0;
 
-    virtual void getNodeId() =0;
-    virtual void setNodeId() =0;
+    virtual uint8_t getNodeId() =0;
+    virtual void setNodeId(uint8_t newVal) =0;
 
-    virtual void getNodeType() =0;
-    virtual void setNodeType() =0;
+    virtual uint8_t getNodeType() =0;
+    virtual void setNodeType(uint8_t newVal) =0;
 
-    virtual void getLocation() =0;
-    virtual void setLocation() =0;
+    virtual uint8_t getLocation() =0;
+    virtual void setLocation(uint8_t newVal) =0;
 
     void getSensorValues ()
     {
@@ -42,11 +43,11 @@ public:
 
 protected:
 
-private:
-
     uint8_t nodeId;
     uint8_t nodeType;
     uint8_t location;
+
+private:
 };
 
 #endif // SENSORNODE_H

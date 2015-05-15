@@ -20,14 +20,14 @@ public:
 
     std::map<uint8_t, Item> getNodeParametersMap();
 
-    void getNodeId();
-    void setNodeId();
+    uint8_t getNodeId();
+    void setNodeId(uint8_t newVal);
 
-    void getNodeType();
-    void setNodeType();
+    uint8_t getNodeType();
+    void setNodeType(uint8_t newVal);
 
-    void getLocation();
-    void setLocation();
+    uint8_t getLocation();
+    void setLocation(uint8_t newVal);
 
     void setTemperatureValue(uint8_t new_var);
 
@@ -40,8 +40,6 @@ public:
     void setNodeStatus(uint8_t new_var);
 
     uint8_t getNodeStatus();
-
-    std::map<uint8_t, Item> getNodeParametersMap();
 
 protected:
 
