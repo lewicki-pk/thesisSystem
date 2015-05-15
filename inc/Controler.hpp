@@ -28,7 +28,7 @@ protected:
 private:
 
     void initSensorDB()   {
-        sensorDB = new SensorDB();
+        sensorDB = SensorDB::getInstance();
     }
 
     void setupConnection();

@@ -11,7 +11,7 @@ class SensorDB
 {
 public:
 
-    SensorDB();
+    static SensorDB* getInstance();
 
     virtual ~SensorDB();
 
@@ -31,7 +31,11 @@ public:
 
 protected:
 
+    SensorDB();
+
 private:
+
+    static SensorDB* _instance;
 
     std::set<SensorNode*> sensorNodeContainer;
 

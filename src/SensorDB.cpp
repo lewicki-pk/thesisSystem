@@ -1,21 +1,34 @@
 #include <SensorDB.hpp>
 
-SensorDB::SensorDB() {
+SensorDB::SensorDB()
+{
     initAttributes();
 }
 
 SensorDB::~SensorDB() { }
 
-std::set<SensorNode*>::iterator SensorDB::begin() {
+SensorDB* SensorDB::_instance = NULL;
 
+SensorDB* SensorDB::getInstance()
+{
+    if (NULL == _instance) {
+        _instance = new SensorDB;
+    }
+    return _instance;
+}
+
+std::set<SensorNode*>::iterator SensorDB::begin()
+{
     return sensorNodeContainer.begin(); 
 }
 
-std::set<SensorNode*>::iterator SensorDB::end() {
+std::set<SensorNode*>::iterator SensorDB::end()
+{
     return sensorNodeContainer.end(); 
 }
 
-void SensorDB::addSensorNode(SensorNode* newNode) {
+void SensorDB::addSensorNode(SensorNode* newNode)
+{
     sensorNodeContainer.insert(newNode);
 }
 
