@@ -20,7 +20,17 @@ TemperatureNode& TemperatureNode::operator= (const TemperatureNode& copySource)
     return *this;
 }
 
-void TemperatureNode::initAttributes() {
+void TemperatureNode::initAttributes()
+{
+        nodeId = new uint8_t;
+        nodeType = new uint8_t;
+        location = new uint8_t;
+        lastReadingStatus = new uint8_t;
+        nodeStatus = new uint8_t;
+        Item emptyItem = {ElementType::TEXT, "", 0};
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(0, emptyItem));
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(1, emptyItem));
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(2, emptyItem));
 }
 
 std::map<uint8_t, Item> TemperatureNode::getNodeParametersMap()
@@ -35,7 +45,7 @@ void TemperatureNode::setTemperatureValue(uint8_t new_var) {
     {
         Item* item = &(pair.second);
         item->elementType = ElementType::TEXT;
-        item->itemName = getNodeId() + "_Temperature";
+        item->itemName = *getNodeId() + "_Temperature";
         item->itemValue = new_var;
     }
 }
@@ -46,16 +56,16 @@ void TemperatureNode::setHumidityValue(uint8_t new_var) {
     {
         Item* item = &(pair.second);
         item->elementType = ElementType::TEXT;
-        item->itemName = getNodeId() + "_Humidity";
+        item->itemName = *getNodeId() + "_Humidity";
         item->itemValue = new_var;
     }
 }
 
 void TemperatureNode::setLastReadingStatus(uint8_t new_var) {
-    lastReadingStatus = new_var;
+    *lastReadingStatus = new_var;
 }
 
-uint8_t TemperatureNode::getLastReadingStatus() {
+uint8_t* TemperatureNode::getLastReadingStatus() {
     return lastReadingStatus;
 }
 
@@ -65,42 +75,38 @@ void TemperatureNode::setNodeStatus(uint8_t new_var) {
     {
         Item* item = &(pair.second);
         item->elementType = ElementType::TEXT;
-        item->itemName = getNodeId() + "_Status";
+        item->itemName = *getNodeId() + "_Status";
         item->itemValue = new_var;
     }
 }
 
-uint8_t TemperatureNode::getNodeStatus() {
-    return nodeStatus;
-}
-
-uint8_t TemperatureNode::getNodeId()
+uint8_t* TemperatureNode::getNodeId()
 {
     return nodeId;
 }
 
 void TemperatureNode::setNodeId(uint8_t newVal)
 {
-    nodeId = newVal;
+    *nodeId = newVal;
 }
 
-uint8_t TemperatureNode::getNodeType()
+uint8_t* TemperatureNode::getNodeType()
 {
     return nodeType;
 }
 
 void TemperatureNode::setNodeType(uint8_t newVal)
 {
-    nodeType = newVal;
+    *nodeType = newVal;
 }
 
-uint8_t TemperatureNode::getLocation()
+uint8_t* TemperatureNode::getLocation()
 {
     return location;
 }
 
 void TemperatureNode::setLocation(uint8_t newVal)
 {
-    location = newVal;
+    *location = newVal;
 }
 

@@ -8,7 +8,7 @@
 #include <CommonMessages.hpp>
 #include <CommonInterfaces.hpp>
 
-class TemperatureNode : virtual public SensorNode
+class TemperatureNode : public SensorNode
 {
 public:
 
@@ -20,13 +20,13 @@ public:
 
     std::map<uint8_t, Item> getNodeParametersMap();
 
-    uint8_t getNodeId();
+    uint8_t* getNodeId();
     void setNodeId(uint8_t newVal);
 
-    uint8_t getNodeType();
+    uint8_t* getNodeType();
     void setNodeType(uint8_t newVal);
 
-    uint8_t getLocation();
+    uint8_t* getLocation();
     void setLocation(uint8_t newVal);
 
     void setTemperatureValue(uint8_t new_var);
@@ -35,11 +35,11 @@ public:
 
     void setLastReadingStatus(uint8_t new_var);
 
-    uint8_t getLastReadingStatus();
+    uint8_t* getLastReadingStatus();
 
     void setNodeStatus(uint8_t new_var);
 
-    uint8_t getNodeStatus();
+    uint8_t* getNodeStatus();
 
 protected:
 
@@ -47,8 +47,8 @@ private:
 
     void initAttributes() ;
 
-    uint8_t lastReadingStatus;
-    uint8_t nodeStatus;
+    uint8_t* lastReadingStatus;
+    uint8_t* nodeStatus;
     std::map<uint8_t, Item> nodeParametersMap;
 
 };

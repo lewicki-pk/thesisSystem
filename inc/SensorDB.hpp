@@ -15,13 +15,13 @@ public:
 
     virtual ~SensorDB();
 
-    void setSensorNodeContainer(std::set<SensorNode*> new_var)   {
-        sensorNodeContainer = new_var;
-    }
+    //void setSensorNodeContainer(std::set<SensorNode*> new_var)   {
+    //    sensorNodeContainer = new_var;
+    //}
 
-    std::set<SensorNode*> getSensorNodeContainer()   {
-        return sensorNodeContainer;
-    }
+    //std::set<SensorNode*> getSensorNodeContainer()   {
+    //    return sensorNodeContainer;
+    //}
 
     std::set<SensorNode*>::iterator begin();
 

@@ -1,6 +1,7 @@
 #include "SitemapGenerator.hpp"
 
-SitemapGenerator::SitemapGenerator() {
+SitemapGenerator::SitemapGenerator() : sensorDBPtr(SensorDB::getInstance())
+{
 }
 
 SitemapGenerator::~SitemapGenerator() {}

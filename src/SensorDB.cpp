@@ -5,7 +5,11 @@ SensorDB::SensorDB()
     initAttributes();
 }
 
-SensorDB::~SensorDB() { }
+SensorDB::~SensorDB()
+{
+    if (NULL != _instance)
+        delete _instance;
+}
 
 SensorDB* SensorDB::_instance = NULL;
 

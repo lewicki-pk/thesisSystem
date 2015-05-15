@@ -19,9 +19,9 @@ class SitemapGenerator
 {
 public:
 
-    SitemapGenerator ();
+    SitemapGenerator();
 
-    virtual ~SitemapGenerator ();
+    virtual ~SitemapGenerator();
 
     void generateFullSitemap();
 
