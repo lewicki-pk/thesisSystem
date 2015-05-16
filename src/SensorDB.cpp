@@ -2,6 +2,7 @@
 
 SensorDB::SensorDB()
 {
+    sensorNodeContainer.clear();
     initAttributes();
 }
 

@@ -8,6 +8,7 @@ SitemapGenerator::~SitemapGenerator() {}
 
 void SitemapGenerator::generateFullSitemap()
 {
+    sitemapConfigFile.str(std::string());
     openSitemapHead();
     for (std::set<SensorNode*>::iterator sensorItr = sensorDBPtr->begin();
             sensorItr != sensorDBPtr->end();
