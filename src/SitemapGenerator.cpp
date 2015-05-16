@@ -14,8 +14,8 @@ void SitemapGenerator::generateFullSitemap()
             sensorItr++) {
         openSitemapFrame();
 
-        std::map<uint8_t, Item> sensorParameters = (*sensorItr)->getNodeParametersMap();
-        for (auto it = sensorParameters.begin(); it != sensorParameters.end(); it++) {
+        std::map<uint8_t, Item>* sensorParameters = (*sensorItr)->getNodeParametersMap();
+        for (auto it = sensorParameters->begin(); it != sensorParameters->end(); it++) {
             addSitemapText(*it);
         }
         closeTag();

@@ -31,9 +31,9 @@ std::set<SensorNode*>::iterator SensorDB::end()
     return sensorNodeContainer.end(); 
 }
 
-void SensorDB::addSensorNode(SensorNode* newNode)
+void SensorDB::addSensorNode(SensorNode& newNode)
 {
-    sensorNodeContainer.insert(newNode);
+    sensorNodeContainer.insert(&newNode);
 }
 
 void SensorDB::initAttributes()

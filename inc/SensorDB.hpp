@@ -27,7 +27,7 @@ public:
 
     std::set<SensorNode*>::iterator end();
 
-    void addSensorNode(SensorNode* newNode);
+    void addSensorNode(SensorNode& newNode);
 
 protected:
 

@@ -47,36 +47,30 @@ std::map<uint8_t, Item>* TemperatureNode::getNodeParametersMap()
 }
 
 void TemperatureNode::setNodeStatus(uint8_t newVal) {
-    std::pair<const uint8_t, Item> pair = *(nodeParametersMap.find(0));
-    if (&pair != &*nodeParametersMap.end())
-    {
-        Item* item = &(pair.second);
-        item->elementType = ElementType::TEXT;
-        item->itemName = *getNodeId() + "_Status";
-        item->itemValue = newVal;
-    }
+    std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(0);
+    Item item = {ElementType::TEXT, std::to_string(*getNodeId()) + "_Status", newVal};
+    if (pair != nodeParametersMap.end())
+        pair->second = item;
+    else
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
 }
 
 void TemperatureNode::setTemperatureValue(uint8_t newVal) {
-    std::pair<const uint8_t, Item> pair = *(nodeParametersMap.find(1));
-    if (&pair != &*nodeParametersMap.end())
-    {
-        Item* item = &(pair.second);
-        item->elementType = ElementType::TEXT;
-        item->itemName = *getNodeId() + "_Temperature";
-        item->itemValue = newVal;
-    }
+    std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(1);
+    Item item = {ElementType::TEXT, std::to_string(*getNodeId()) + "_Temperature", newVal};
+    if (pair != nodeParametersMap.end())
+        pair->second = item;
+    else
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
 }
 
 void TemperatureNode::setHumidityValue(uint8_t newVal) {
-    std::pair<const uint8_t, Item> pair = *(nodeParametersMap.find(2));
-    if (&pair != &*nodeParametersMap.end())
-    {
-        Item* item = &(pair.second);
-        item->elementType = ElementType::TEXT;
-        item->itemName = *getNodeId() + "_Humidity";
-        item->itemValue = newVal;
-    }
+    std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(2);
+    Item item = {ElementType::TEXT, std::to_string(*getNodeId()) + "_Humidity", newVal};
+    if (pair != nodeParametersMap.end())
+        pair->second = item;
+    else
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
 }
 
 uint8_t* TemperatureNode::getLastReadingStatus() {
