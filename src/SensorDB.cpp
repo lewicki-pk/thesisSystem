@@ -3,7 +3,6 @@
 SensorDB::SensorDB()
 {
     sensorNodeContainer.clear();
-    initAttributes();
 }
 
 SensorDB::~SensorDB()
@@ -37,6 +36,7 @@ void SensorDB::addSensorNode(SensorNode& newNode)
     sensorNodeContainer.insert(&newNode);
 }
 
-void SensorDB::initAttributes()
+void SensorDB::clearDatabase()
 {
+    sensorNodeContainer.clear();
 }

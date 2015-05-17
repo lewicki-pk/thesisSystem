@@ -29,6 +29,8 @@ public:
 
     void addSensorNode(SensorNode& newNode);
 
+    void clearDatabase();
+
 protected:
 
     SensorDB();
@@ -38,8 +40,6 @@ private:
     static SensorDB* _instance;
 
     std::set<SensorNode*> sensorNodeContainer;
-
-    void initAttributes();
 
 };
 

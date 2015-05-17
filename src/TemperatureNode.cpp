@@ -13,7 +13,7 @@ TemperatureNode::TemperatureNode() :
 TemperatureNode::TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t temperatureVal, uint8_t humidityVal, uint8_t lastReadingVal) :
     SensorNode(nodeId, nodeType, location, nodeStatus), lastReadingStatus(new uint8_t(lastReadingVal))
 {
-    std::string nodeIdStr = nodeId + "_";
+    std::string nodeIdStr = std::to_string(nodeId) + "_";
     Item insertedItem = {ElementType::TEXT, nodeIdStr + "Status", nodeStatus};
     nodeParametersMap.insert(std::pair<uint8_t, Item>(0, insertedItem));
 
