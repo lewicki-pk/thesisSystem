@@ -67,13 +67,9 @@ TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes)
     sampleTempNode->setHumidityValue(40);
     sampleTempNode->setLastReadingStatus(0);
 
-    helper(sampleTempNode);
-
     SensorDB::getInstance()->addSensorNode(*sampleTempNode);
 
     TemperatureNode* sampleTempNode2 = new TemperatureNode(2,1,3,1,25,50,0);
-
-    helper(sampleTempNode2);
 
     ASSERT_EQ(*sampleTempNode2->getNodeType(), 1);
     ASSERT_EQ(*sampleTempNode2->getLocation(), 3);
