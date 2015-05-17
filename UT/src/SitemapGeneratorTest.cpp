@@ -82,7 +82,7 @@ TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes)
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
 }
 
-TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes_reconfig)
+TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes_clone)
 {
     std::stringstream goldenSitemap;
     goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame {\nText item=1_Status\nText item=1_Temperature\nText item=1_Humidity\n}\nFrame {\nText item=2_Status\nText item=2_Temperature\nText item=2_Humidity\n}\n}\n";
@@ -94,19 +94,13 @@ TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes_reconfig)
 
     SensorDB::getInstance()->addSensorNode(*sampleTempNode);
 
-    TemperatureNode* sampleTempNode2 = sampleTempNode;
-    ASSERT_EQ(*sampleTempNode->getNodeId(), 1);
+    TemperatureNode* sampleTempNode2 = sampleTempNode->clone();
+    ASSERT_EQ(*sampleTempNode2->getNodeId(), 1);
     sampleTempNode2->setNodeId(2);
-    sampleTempNode2->setNodeType(1);
     sampleTempNode2->setLocation(3);
-    sampleTempNode2->setNodeStatus(1);
     sampleTempNode2->setTemperatureValue(25);
     sampleTempNode2->setHumidityValue(50);
     sampleTempNode2->setLastReadingStatus(0);
-
-    ASSERT_EQ(*sampleTempNode2->getNodeType(), 1);
-    ASSERT_EQ(*sampleTempNode2->getLocation(), 3);
-    ASSERT_EQ(*sampleTempNode2->getLastReadingStatus(), 0);
 
     SensorDB::getInstance()->addSensorNode(*sampleTempNode2);
 
@@ -114,4 +108,3 @@ TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes_reconfig)
 
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
 }
-

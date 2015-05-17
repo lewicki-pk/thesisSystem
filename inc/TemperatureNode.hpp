@@ -10,9 +10,9 @@ public:
     TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t temperatureVal, uint8_t humidityVal, uint8_t lastReadingVal);
     virtual ~TemperatureNode();
 
+    virtual TemperatureNode* clone();
     TemperatureNode(const TemperatureNode& copySource);
 
-    TemperatureNode& operator= (const TemperatureNode& copySource);
     bool operator< (const SensorNode& toCompare);
 
     std::map<uint8_t, Item>* getNodeParametersMap();

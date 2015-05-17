@@ -28,7 +28,12 @@ TemperatureNode::TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t locat
 
 TemperatureNode::~TemperatureNode() { }
 
-TemperatureNode& TemperatureNode::operator= (const TemperatureNode& copySource)
+TemperatureNode* TemperatureNode::clone()
+{
+    return (new TemperatureNode(*this));
+}
+
+TemperatureNode::TemperatureNode(const TemperatureNode& copySource) : SensorNode()
 {
     if (this != &copySource) {
         this->nodeId.reset(new uint8_t(*copySource.nodeId.get()));
@@ -38,7 +43,6 @@ TemperatureNode& TemperatureNode::operator= (const TemperatureNode& copySource)
         this->lastReadingStatus.reset(new uint8_t(*copySource.lastReadingStatus.get()));
         this->nodeParametersMap = copySource.nodeParametersMap;
     }
-    return *this;
 }
 
 std::map<uint8_t, Item>* TemperatureNode::getNodeParametersMap()
@@ -89,6 +93,9 @@ uint8_t* TemperatureNode::getNodeId()
 void TemperatureNode::setNodeId(uint8_t newVal)
 {
     nodeId.reset(new uint8_t(newVal));
+    this->setNodeStatus((*nodeParametersMap.find(0)).second.itemValue);
+    this->setTemperatureValue((*nodeParametersMap.find(1)).second.itemValue);
+    this->setHumidityValue((*nodeParametersMap.find(2)).second.itemValue);
 }
 
 uint8_t* TemperatureNode::getNodeType()

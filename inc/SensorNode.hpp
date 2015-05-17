@@ -21,9 +21,9 @@ public:
     SensorNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus);
     virtual ~SensorNode();
 
+    virtual SensorNode* clone() =0;
     SensorNode(const SensorNode& copySource);
 
-    SensorNode& operator= (const SensorNode& copySource);
     bool operator< (const SensorNode& toCompare);
 
 
