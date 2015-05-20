@@ -18,7 +18,9 @@ TESTS = SitemapGeneratorTest
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
 GTEST_HEADERS = include/gtest/*.h \
-                include/gtest/internal/*.h
+                include/gtest/internal/*.h \
+                include/gmock/*.h \
+                include/gmock/internal/*.h
 
 INCLUDE=-Iinclude -I../inc/ -I../common/ 
 
@@ -31,7 +33,7 @@ OBJ_FILES := $(addprefix ../obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 TEST_CPP_FILES = $(wildcard src/*.cpp)
 TEST_OBJ_FILES := $(addprefix obj/,$(notdir $(TEST_CPP_FILES:.cpp=.o)))
 
-UnitTests : $(OBJ_FILES) $(TEST_OBJ_FILES) make/gtest_main.a
+UnitTests : $(OBJ_FILES) $(TEST_OBJ_FILES) make/gtest_main.a make/gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LDFLAGS)
 
 test : all
