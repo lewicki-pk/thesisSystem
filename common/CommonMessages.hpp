@@ -22,13 +22,21 @@ enum class Status : uint8_t
     fail
 };
 
+enum class MsgType : uint8_t
+{
+    AckNack,
+    TempSensorData,
+    Initialization,
+};
+
 struct Header
 {
     uint8_t nodeId;
     uint8_t nodeType;
     uint8_t location;
+    uint8_t msgType;
+    uint16_t checksum;
     Status status;
-    
 };
 
 struct Message

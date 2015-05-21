@@ -31,10 +31,11 @@ std::map<uint8_t, SensorNode*>::iterator SensorDB::end()
     return sensorNodeContainer.end(); 
 }
 
-void SensorDB::addSensorNode(SensorNode& newNode)
+bool SensorDB::addSensorNode(SensorNode& newNode)
 {
     std::pair<uint8_t, SensorNode*> pairToAdd = std::make_pair(*newNode.getNodeId(), &newNode);
-    sensorNodeContainer.insert(pairToAdd);
+    std::pair<std::map<uint8_t, SensorNode*>::iterator, bool> result =  sensorNodeContainer.insert(pairToAdd);
+    return result.second;
 }
 
 void SensorDB::clearDatabase()

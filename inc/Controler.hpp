@@ -2,6 +2,7 @@
 #define CONTROLER_H
 
 #include <string>
+#include <queue>
 
 #include <SensorDB.hpp>
 #include <CommonMessages.hpp>
@@ -20,8 +21,11 @@ public:
 
     virtual ~Controler();
 
-
     void receiveMessages();
+
+    void handleInitializations();
+
+    void handleMessages();
 
 protected:
 
@@ -32,6 +36,9 @@ private:
     }
 
     void setupConnection();
+    std::queue<Message>readingsContainer;
+    std::queue<Message>initsContainer;
+
 
 #ifndef UNIT_TEST
     RF24 radio;

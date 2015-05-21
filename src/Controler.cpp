@@ -22,18 +22,53 @@ void Controler::receiveMessages()
         // dump the payloads until we've got everything
         Message receivedData = {0};
         radio.read(&receivedData, sizeof(Message));
-        if (receivedData.header.nodeId == 1) {
-            TempSensorData data = receivedData.msgData.tempSensorData;
+        Header msgHeader = receivedData.header;
+        switch (msgHeader.msgType)
+        {
+        case 1 : //AckNack
+            break;
+        case 2 : //TemperatureNodeData
+            readingsContainer.push(receivedData);
+            break;
+        case 3 : //Initialization //TODO for now lets leave it empty
+            initsContainer.push(receivedData);
+            break;
+        default :
+            break;
+        }
+    }
+#endif
+}
+
+void Controler::handleInitializations()
+{
+    if (!initsContainer.empty())
+    {
+        Message tmp = initsContainer.front();
+        //tmp.
+        //TODO procedura inicjalizacji
+    }
+}
+
+void Controler::handleMessages()
+{
+    if (!readingsContainer.empty())
+    {
+        Message msg = readingsContainer.front();
+        Header msgHeader = msg.header;
+    //TODO here handle sensor readings
+    //TODO rework
+        if (msgHeader.msgType == 1) {
+            TempSensorData data = msg.msgData.tempSensorData;
             printf("1111 retVal: %d, temperature: %d deg. Celsius, humidity %d %% \n", data.result, 
                     data.temperature, 
                     data.humidity );
         }
-        if (receivedData.header.nodeId == 2) {
-            TempSensorData data = receivedData.msgData.tempSensorData;
+        if (msgHeader.nodeId == 2) {
+            TempSensorData data = msg.msgData.tempSensorData;
             printf("2222 with counter value: %d\n", data.result);
         }
     }
-#endif
 }
 
 void Controler::setupConnection()
@@ -53,6 +88,6 @@ void Controler::setupConnection()
     radio.powerUp();
     radio.startListening();
 #endif
-    sensorDB = NULL;
+    sensorDB = SensorDB::getInstance();
 }
 
