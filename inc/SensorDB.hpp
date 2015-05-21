@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <set>
+#include <map>
 
 #include <SensorNode.hpp>
 
@@ -23,9 +23,9 @@ public:
     //    return sensorNodeContainer;
     //}
 
-    std::set<SensorNode*>::iterator begin();
+    std::map<uint8_t, SensorNode*>::iterator begin();
 
-    std::set<SensorNode*>::iterator end();
+    std::map<uint8_t, SensorNode*>::iterator end();
 
     void addSensorNode(SensorNode& newNode);
 
@@ -39,7 +39,7 @@ private:
 
     static SensorDB* _instance;
 
-    std::set<SensorNode*> sensorNodeContainer;
+    std::map<uint8_t, SensorNode*> sensorNodeContainer;
 
 };
 

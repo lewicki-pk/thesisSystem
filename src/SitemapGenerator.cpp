@@ -10,12 +10,12 @@ void SitemapGenerator::generateFullSitemap()
 {
     sitemapConfigFile.str(std::string());
     openSitemapHead();
-    for (std::set<SensorNode*>::iterator sensorItr = sensorDBPtr->begin();
+    for (auto sensorItr = sensorDBPtr->begin();
             sensorItr != sensorDBPtr->end();
             sensorItr++) {
         openSitemapFrame();
 
-        std::map<uint8_t, Item>* sensorParameters = (*sensorItr)->getNodeParametersMap();
+        std::map<uint8_t, Item>* sensorParameters = (*sensorItr).second->getNodeParametersMap();
         for (auto it = sensorParameters->begin(); it != sensorParameters->end(); it++) {
             addSitemapText(*it);
         }

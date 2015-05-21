@@ -21,19 +21,20 @@ SensorDB* SensorDB::getInstance()
     return _instance;
 }
 
-std::set<SensorNode*>::iterator SensorDB::begin()
+std::map<uint8_t, SensorNode*>::iterator SensorDB::begin()
 {
     return sensorNodeContainer.begin(); 
 }
 
-std::set<SensorNode*>::iterator SensorDB::end()
+std::map<uint8_t, SensorNode*>::iterator SensorDB::end()
 {
     return sensorNodeContainer.end(); 
 }
 
 void SensorDB::addSensorNode(SensorNode& newNode)
 {
-    sensorNodeContainer.insert(&newNode);
+    std::pair<uint8_t, SensorNode*> pairToAdd = std::make_pair(*newNode.getNodeId(), &newNode);
+    sensorNodeContainer.insert(pairToAdd);
 }
 
 void SensorDB::clearDatabase()
