@@ -27,18 +27,21 @@ public:
 
     void handleMessages();
 
+    void registerNode(Message msg); // TODO make private and rewrite the test
+
 protected:
 
 private:
+
+    std::queue<Message>readingsContainer;
+
+    std::queue<Message>initsContainer;
 
     void initSensorDB()   {
         sensorDB = SensorDB::getInstance();
     }
 
     void setupConnection();
-    std::queue<Message>readingsContainer;
-    std::queue<Message>initsContainer;
-
 
 #ifndef UNIT_TEST
     RF24 radio;

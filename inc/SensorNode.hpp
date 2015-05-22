@@ -26,6 +26,7 @@ public:
 
     bool operator< (const SensorNode& toCompare);
 
+    bool isEqualTo(const SensorNode& sn);
 
     virtual std::map<uint8_t, Item>* getNodeParametersMap() =0;
 

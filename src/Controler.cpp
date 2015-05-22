@@ -91,3 +91,24 @@ void Controler::setupConnection()
     sensorDB = SensorDB::getInstance();
 }
 
+void Controler::registerNode(Message msg)
+{
+    //TODO procedura:
+    Header hdr = msg.header;
+    uint8_t currentNodeId;
+
+    //1. jesli brak nodeId - znajdz, nadaj
+    if (!hdr.nodeId) {
+        sensorDB->getFreeNodeId(); // TODO implement me
+    }
+    //2. jesli nodeId istnieje - sprawdz czy rodzaj czujnika sie zgadza
+    else if (!sensorDB->isNodeInDB(hdr.nodeId, hdr.nodeType, hdr.location))
+        replyWithResetRequest();
+    //2a. jesli sie zgadza - przejdz dalej
+    //2b. jesli sie nie zgadza - kaz czujnikowi sie przeresetowac
+    // stwórz node'a i dodaj do DB
+    sensorDB->addSensorNode(nodeToRegister);
+    //3. odpowiedz czujnikowi zgodnie z wynikiem powyzszych czynnosci
+    replyWithAck(hdr.checksum);
+}
+

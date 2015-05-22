@@ -20,3 +20,13 @@ bool SensorNode::operator< (const SensorNode& toCompare) {
     else
         return false;
 }
+
+bool SensorNode::isEqualTo(const SensorNode& sn)
+{
+    if ((*this->nodeId.get() == *sn.nodeId.get()) &&
+        (*this->nodeType.get() == *sn.nodeType.get()) &&
+        (*this->location.get() == *sn.location.get()))
+        return true;
+    else
+        return false;
+}

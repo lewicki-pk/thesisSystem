@@ -42,3 +42,8 @@ void SensorDB::clearDatabase()
 {
     sensorNodeContainer.clear();
 }
+
+size_t SensorDB::getSize()
+{
+    return sensorNodeContainer.size();
+}

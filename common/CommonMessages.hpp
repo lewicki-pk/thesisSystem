@@ -2,6 +2,11 @@
 
 #include <stdint.h>
 
+struct InitMsgData
+{
+    uint32_t retryCounter;
+};
+
 struct TempSensorData
 {
     uint32_t result;
@@ -44,6 +49,7 @@ struct Message
     Header header;
     union MsgData
     {
+        InitMsgData initMsgData;
         AckNack ackNack;
         TempSensorData tempSensorData;
     } msgData;

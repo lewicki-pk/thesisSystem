@@ -27,6 +27,8 @@ public:
 
     std::map<uint8_t, SensorNode*>::iterator end();
 
+    size_t getSize();
+
     bool addSensorNode(SensorNode& newNode);
 
     void clearDatabase();
