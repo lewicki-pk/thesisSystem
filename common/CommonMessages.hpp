@@ -2,6 +2,9 @@
 
 #include <stdint.h>
 
+#define RASPI_WRITE_ADDR 0xF0F0F0F0F0LL
+#define RASPI_READ_ADDR 0xF0F0F0F0E1LL
+
 struct InitMsgData
 {
     uint32_t retryCounter;
@@ -16,8 +19,8 @@ struct TempSensorData
 
 enum class AckNack : uint8_t
 {
-    Nack,
-    Ack
+    NACK,
+    ACK
 };
 
 enum class Status : uint8_t
@@ -29,9 +32,10 @@ enum class Status : uint8_t
 
 enum class MsgType : uint8_t
 {
-    AckNack,
-    TempSensorData,
-    Initialization,
+    INITIALIZATION,
+    RESET_REQUEST,
+    ACK_NACK,
+    TEMP_SENSOR_DATA,
 };
 
 struct Header

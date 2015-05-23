@@ -23,11 +23,18 @@ public:
 
     void receiveMessages();
 
+    void sendResponses();
+
     void handleInitializations();
 
     void handleMessages();
 
-    void registerNode(Message msg); // TODO make private and rewrite the test
+    // TODO make private and rewrite the test
+    void registerNode(Message msg);
+
+    void replyWithResetRequest(Header hdr);
+
+    void replyWithAck(Header hdr);
 
 protected:
 
@@ -37,9 +44,13 @@ private:
 
     std::queue<Message>initsContainer;
 
+    std::queue<Message>repliesContainer;
+
     void initSensorDB()   {
         sensorDB = SensorDB::getInstance();
     }
+
+    void createAndAddNode(Header hdr);
 
     void setupConnection();
 

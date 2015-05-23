@@ -1,4 +1,5 @@
-#include "Controler.hpp"
+#include <Controler.hpp>
+#include <TemperatureNode.hpp>
 
 // Constructors/Destructors
 //  
@@ -22,15 +23,15 @@ void Controler::receiveMessages()
         // dump the payloads until we've got everything
         Message receivedData = {0};
         radio.read(&receivedData, sizeof(Message));
-        Header msgHeader = receivedData.header;
-        switch (msgHeader.msgType)
+
+        switch (receivedData.header.msgType)
         {
-        case 1 : //AckNack
+        case MsgType::ACK_NACK : //AckNack
             break;
-        case 2 : //TemperatureNodeData
+        case MsgType::TEMP_SENSOR_DATA : //TemperatureNodeData
             readingsContainer.push(receivedData);
             break;
-        case 3 : //Initialization //TODO for now lets leave it empty
+        case MsgType::INITIALIZATION : //Initialization
             initsContainer.push(receivedData);
             break;
         default :
@@ -44,9 +45,8 @@ void Controler::handleInitializations()
 {
     if (!initsContainer.empty())
     {
-        Message tmp = initsContainer.front();
-        //tmp.
-        //TODO procedura inicjalizacji
+        Message msg = initsContainer.front();
+        registerNode(msg);
     }
 }
 
@@ -81,7 +81,7 @@ void Controler::setupConnection()
     radio.setChannel(0x4c);
 
     // open pipe for reading
-    radio.openReadingPipe(1,0xF0F0F0F0E1LL);
+    radio.openReadingPipe(1, RASPI_READ_ADDR);
 
     radio.enableDynamicPayloads();
     radio.setAutoAck(true);
@@ -93,22 +93,61 @@ void Controler::setupConnection()
 
 void Controler::registerNode(Message msg)
 {
-    //TODO procedura:
     Header hdr = msg.header;
-    uint8_t currentNodeId;
 
-    //1. jesli brak nodeId - znajdz, nadaj
-    if (!hdr.nodeId) {
-        sensorDB->getFreeNodeId(); // TODO implement me
-    }
-    //2. jesli nodeId istnieje - sprawdz czy rodzaj czujnika sie zgadza
-    else if (!sensorDB->isNodeInDB(hdr.nodeId, hdr.nodeType, hdr.location))
-        replyWithResetRequest();
-    //2a. jesli sie zgadza - przejdz dalej
-    //2b. jesli sie nie zgadza - kaz czujnikowi sie przeresetowac
-    // stwórz node'a i dodaj do DB
-    sensorDB->addSensorNode(nodeToRegister);
-    //3. odpowiedz czujnikowi zgodnie z wynikiem powyzszych czynnosci
-    replyWithAck(hdr.checksum);
+    if (!hdr.nodeId)
+        hdr.nodeId = sensorDB->getAvailableNodeId();
+    else if (!sensorDB->isNodeInDB(hdr.nodeId))
+        return replyWithResetRequest(hdr);
+
+    createAndAddNode(hdr);
+    replyWithAck(hdr);
 }
 
+void Controler::replyWithResetRequest(Header hdr)
+{
+    Message msg;
+    msg.header = hdr;
+    msg.header.msgType = static_cast<uint8_t>(MsgType::RESET_REQUEST);
+
+    repliesContainer.push(msg);
+}
+
+void Controler::replyWithAck(Header hdr)
+{
+    Message msg;
+    msg.header = hdr;
+    msg.header.msgType = static_cast<uint8_t>(MsgType::ACK_NACK);
+    AckNack response = AckNack::ACK;
+    msg.msgData.ackNack = response;
+
+    repliesContainer.push(msg);
+}
+
+void Controler::sendResponses()
+{
+    if (!repliesContainer.empty())
+    {
+        Message msg = repliesContainer.front();
+#ifndef UNIT_TEST
+        radio.write(&msg, sizeof(msg));
+#endif
+        repliesContainer.pop();
+    }
+}
+
+void Controler::createAndAddNode(Header hdr)
+{
+    SensorNode* nodeToRegister = nullptr;
+    switch (hdr.nodeType)
+    {
+    case 1 :
+        nodeToRegister = new TemperatureNode;
+    }
+    
+    nodeToRegister->setNodeId(hdr.nodeId);
+    nodeToRegister->setNodeType(hdr.nodeType);
+    nodeToRegister->setLocation(hdr.location);
+
+    sensorDB->addSensorNode(*nodeToRegister);
+}

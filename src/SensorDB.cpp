@@ -47,3 +47,20 @@ size_t SensorDB::getSize()
 {
     return sensorNodeContainer.size();
 }
+
+bool SensorDB::isNodeInDB(uint8_t id)
+{
+    auto iterator = sensorNodeContainer.find(id);
+    return iterator != sensorNodeContainer.end() ? true : false;
+}
+
+uint8_t SensorDB::getAvailableNodeId()
+{
+    uint8_t newId = 1;
+    auto mapEnd = sensorNodeContainer.end();
+
+    while (sensorNodeContainer.find(newId) != mapEnd)
+        newId++;
+
+    return newId;
+}

@@ -1,4 +1,5 @@
 #ifndef SENSORDB_H
+
 #define SENSORDB_H
 
 #include <string>
@@ -28,6 +29,8 @@ public:
     std::map<uint8_t, SensorNode*>::iterator end();
 
     size_t getSize();
+    bool isNodeInDB(uint8_t id);
+    uint8_t getAvailableNodeId();
 
     bool addSensorNode(SensorNode& newNode);
 

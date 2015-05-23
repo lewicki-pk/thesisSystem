@@ -21,7 +21,7 @@ void setup(void)
   radio.setChannel(0x4c);
 
   // open pipe for writing
-  radio.openWritingPipe(0xF0F0F0F0E1LL);
+  radio.openWritingPipe(RASPI_READ_ADDR);
 
   radio.enableDynamicPayloads();
   radio.setAutoAck(true);
