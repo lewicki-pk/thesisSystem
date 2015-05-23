@@ -1,0 +1,15 @@
+#!/bin/bash
+T="$(date +%s)"
+
+
+find ./inc -name '*.cpp' -o -name '*.c' -o -name '*.hpp' -o -name '*.h' > cscope.files ;
+find ./src -name '*.cpp' -o -name '*.c' -o -name '*.hpp' -o -name '*.h' >> cscope.files ;
+find ./common -name '*.cpp' -o -name '*.c' -o -name '*.hpp' -o -name '*.h' >> cscope.files ;
+find ./UT/src  -name '*.cpp' -o -name '*.c' -o -name '*.hpp' -o -name '*.h' >> cscope.files ;
+cscope -b -q -k ;
+echo "Generated cscope db with $? status!"
+ctags --fields=+i --extra=+qf --language-force=C++ -R ./ ;
+echo "Generated ctags db with $? status!"
+
+T="$(($(date +%s)-T))"
+echo "It took ${T} seconds!"
