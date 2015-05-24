@@ -24,7 +24,7 @@ void Controler::receiveMessages()
         Message receivedData = {0};
         radio.read(&receivedData, sizeof(Message));
 
-        switch (receivedData.header.msgType)
+        switch (static_cast<MsgType>(receivedData.header.msgType))
         {
         case MsgType::ACK_NACK : //AckNack
             break;
