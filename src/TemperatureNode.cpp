@@ -123,3 +123,11 @@ uint8_t* TemperatureNode::getNodeStatus()
     return &((*nodeParametersMap.find(0)).second.itemValue);
 }
 
+void TemperatureNode::updateValues(MsgData msgData)
+{
+    if (0 == msgData.tempSensorData.result) {
+        setTemperatureValue(msgData.tempSensorData.temperature);
+        setHumidityValue(msgData.tempSensorData.humidity);
+    }
+}
+

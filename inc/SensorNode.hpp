@@ -9,7 +9,7 @@
 #include <memory>
 
 #include <CommonInterfaces.hpp>
-#include <CommonInterfaces.hpp>
+#include <CommonMessages.hpp>
 
 /******************************* Abstract Class ****************************/
 
@@ -41,6 +41,8 @@ public:
 
     virtual uint8_t* getNodeStatus() =0;
     virtual void setNodeStatus(uint8_t newVal) =0;
+
+    virtual void updateValues(MsgData msgData) =0;
 
 protected:
 

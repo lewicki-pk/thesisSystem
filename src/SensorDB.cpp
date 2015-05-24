@@ -64,3 +64,12 @@ uint8_t SensorDB::getAvailableNodeId()
 
     return newId;
 }
+
+void SensorDB::updateReadings(Message msg)
+{
+    auto iterator = sensorNodeContainer.find(msg.header.nodeId);
+    if (iterator != sensorNodeContainer.end())
+    {
+        iterator->second->updateValues(msg.msgData);
+    }
+}

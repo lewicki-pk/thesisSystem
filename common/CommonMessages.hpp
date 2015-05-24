@@ -48,13 +48,15 @@ struct Header
     Status status;
 };
 
+union MsgData
+{
+    InitMsgData initMsgData;
+    AckNack ackNack;
+    TempSensorData tempSensorData;
+};
+
 struct Message
 {
     Header header;
-    union MsgData
-    {
-        InitMsgData initMsgData;
-        AckNack ackNack;
-        TempSensorData tempSensorData;
-    } msgData;
+    MsgData msgData;
 };

@@ -36,6 +36,8 @@ public:
 
     void setHumidityValue(uint8_t newVal);
 
+    void updateValues(MsgData msgData);
+
 protected:
 
     std::unique_ptr<uint8_t> lastReadingStatus;

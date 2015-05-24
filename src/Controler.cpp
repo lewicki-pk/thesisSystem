@@ -55,19 +55,8 @@ void Controler::handleMessages()
     if (!readingsContainer.empty())
     {
         Message msg = readingsContainer.front();
-        Header msgHeader = msg.header;
-    //TODO here handle sensor readings
-    //TODO rework
-        if (msgHeader.msgType == 1) {
-            TempSensorData data = msg.msgData.tempSensorData;
-            printf("1111 retVal: %d, temperature: %d deg. Celsius, humidity %d %% \n", data.result, 
-                    data.temperature, 
-                    data.humidity );
-        }
-        if (msgHeader.nodeId == 2) {
-            TempSensorData data = msg.msgData.tempSensorData;
-            printf("2222 with counter value: %d\n", data.result);
-        }
+        sensorDB->updateReadings(msg);
+        readingsContainer.pop();
     }
 }
 
@@ -82,6 +71,7 @@ void Controler::setupConnection()
 
     // open pipe for reading
     radio.openReadingPipe(1, RASPI_READ_ADDR);
+    radio.openWritingPipe(RASPI_WRITE_ADDR);
 
     radio.enableDynamicPayloads();
     radio.setAutoAck(true);
@@ -95,10 +85,12 @@ void Controler::registerNode(Message msg)
 {
     Header hdr = msg.header;
 
-    if (!hdr.nodeId)
+    if (!hdr.nodeId) {
         hdr.nodeId = sensorDB->getAvailableNodeId();
-    else if (!sensorDB->isNodeInDB(hdr.nodeId))
+    }
+    else if (!sensorDB->isNodeInDB(hdr.nodeId)) {
         return replyWithResetRequest(hdr);
+    }
 
     createAndAddNode(hdr);
     replyWithAck(hdr);
@@ -130,7 +122,9 @@ void Controler::sendResponses()
     {
         Message msg = repliesContainer.front();
 #ifndef UNIT_TEST
+        radio.stopListening();
         radio.write(&msg, sizeof(msg));
+        radio.startListening();
 #endif
         repliesContainer.pop();
     }

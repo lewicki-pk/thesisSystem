@@ -7,6 +7,7 @@
 #include <map>
 
 #include <SensorNode.hpp>
+#include <CommonInterfaces.hpp>
 
 class SensorDB
 {
@@ -35,6 +36,7 @@ public:
     bool addSensorNode(SensorNode& newNode);
 
     void clearDatabase();
+    void updateReadings(Message msg);
 
 protected:
 
