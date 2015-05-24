@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <Controler.hpp>
 #include <TemperatureNode.hpp>
 
@@ -29,9 +31,11 @@ void Controler::receiveMessages()
         case MsgType::ACK_NACK : //AckNack
             break;
         case MsgType::TEMP_SENSOR_DATA : //TemperatureNodeData
+            std::cout << "DBG: Received TEMP_SENSOR_DATA" << std::endl;
             readingsContainer.push(receivedData);
             break;
         case MsgType::INITIALIZATION : //Initialization
+            std::cout << "DBG: Received INITIALIZATION message" << std::endl;
             initsContainer.push(receivedData);
             break;
         default :
@@ -45,8 +49,10 @@ void Controler::handleInitializations()
 {
     if (!initsContainer.empty())
     {
+        std::cout << "DBG: handling Initializations" << std::endl;
         Message msg = initsContainer.front();
         registerNode(msg);
+        initsContainer.pop();
     }
 }
 
@@ -54,7 +60,10 @@ void Controler::handleMessages()
 {
     if (!readingsContainer.empty())
     {
+        std::cout << "DBG: handling messages" << std::endl;
         Message msg = readingsContainer.front();
+        TempSensorData data = msg.msgData.tempSensorData;
+        std::cout << "received: status: " << data.result << ", temperature: " << data.temperature << " degrees, humidity: " << data.humidity << "%" << std::endl; //TODO here we have some strange numbers - check if we have proper types
         sensorDB->updateReadings(msg);
         readingsContainer.pop();
     }
@@ -89,9 +98,11 @@ void Controler::registerNode(Message msg)
         hdr.nodeId = sensorDB->getAvailableNodeId();
     }
     else if (!sensorDB->isNodeInDB(hdr.nodeId)) {
+        std::cout << "DBG: registerNode: this node is not in Database" << std::endl;
         return replyWithResetRequest(hdr);
     }
 
+    std::cout << "DBG: adding node to DB" << std::endl;
     createAndAddNode(hdr);
     replyWithAck(hdr);
 }
@@ -120,6 +131,7 @@ void Controler::sendResponses()
 {
     if (!repliesContainer.empty())
     {
+        std::cout << "DBG: replying to some message" << std::endl;
         Message msg = repliesContainer.front();
 #ifndef UNIT_TEST
         radio.stopListening();
