@@ -1,6 +1,6 @@
-#ifndef SENSORDB_H
+#pragma once
 
-#define SENSORDB_H
+#include <ISensorDB.hpp>
 
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@
 #include <SensorNode.hpp>
 #include <CommonInterfaces.hpp>
 
-class SensorDB
+class SensorDB: public ISensorDB
 {
 public:
 
@@ -25,15 +25,15 @@ public:
     //    return sensorNodeContainer;
     //}
 
-    std::map<uint8_t, SensorNode*>::iterator begin();
+    std::map<uint8_t, ISensorNode*>::iterator begin();
 
-    std::map<uint8_t, SensorNode*>::iterator end();
+    std::map<uint8_t, ISensorNode*>::iterator end();
 
     size_t getSize();
     bool isNodeInDB(uint8_t id);
     uint8_t getAvailableNodeId();
 
-    bool addSensorNode(SensorNode& newNode);
+    bool addSensorNode(ISensorNode& newNode);
 
     void clearDatabase();
     void updateReadings(Message msg);
@@ -46,8 +46,6 @@ private:
 
     static SensorDB* _instance;
 
-    std::map<uint8_t, SensorNode*> sensorNodeContainer;
+    std::map<uint8_t, ISensorNode*> sensorNodeContainer;
 
 };
-
-#endif // SENSORDB_H

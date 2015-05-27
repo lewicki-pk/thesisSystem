@@ -1,5 +1,5 @@
-#ifndef CONTROLER_H
-#define CONTROLER_H
+#pragma once
+#include <IControler.hpp>
 
 #include <string>
 #include <queue>
@@ -13,7 +13,7 @@
 
 #endif
 
-class Controler
+class Controler: public IControler
 {
 public:
 
@@ -60,4 +60,3 @@ private:
     SensorDB* sensorDB;
 };
 
-#endif // CONTROLER_H

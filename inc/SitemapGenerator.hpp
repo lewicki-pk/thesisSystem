@@ -1,6 +1,6 @@
+#pragma once
 
-#ifndef SITEMAPGENERATOR_H
-#define SITEMAPGENERATOR_H
+#include <ISitemapGenerator.hpp>
 
 #include <cstdint>
 #include <map>
@@ -15,7 +15,7 @@
 typedef std::pair<uint8_t, Item> sensorParametersPair;
 typedef std::map<uint8_t, Item> sensorParametersMap;
 
-class SitemapGenerator
+class SitemapGenerator: public ISitemapGenerator
 {
 public:
 
@@ -43,5 +43,3 @@ private:
     std::stringstream sitemapConfigFile;
 
 };
-
-#endif // SITEMAPGENERATOR_H
