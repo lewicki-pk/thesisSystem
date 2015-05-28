@@ -8,26 +8,8 @@ ItemsGenerator::~ItemsGenerator() {}
 
 bool ItemsGenerator::generateFullItems()
 {
-    return false;
-    //genItemName();
-    //genItemType();
+    return true;
 }
-
-//void ItemsGenerator::openItemsHead()
-//{
-//}
-//
-//void ItemsGenerator::openItemsFrame()
-//{
-//}
-//
-//void ItemsGenerator::closeTag()
-//{
-//}
-//
-//void ItemsGenerator::addItemsText(std::pair<uint8_t, Item> paramPair)
-//{
-//}
 
 std::string ItemsGenerator::elementTypeToString(ElementType& typeToConvert) {
     std::string returnString;
