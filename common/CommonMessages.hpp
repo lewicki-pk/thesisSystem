@@ -21,14 +21,14 @@ enum class AckNack : uint8_t
 {
     NACK,
     ACK
-}__attribute__((packed));
+};
 
 enum class Status : uint8_t
 {
     ok,
     error,
     fail
-}__attribute__((packed));
+};
 
 enum class MsgType : uint8_t
 {
@@ -36,7 +36,7 @@ enum class MsgType : uint8_t
     RESET_REQUEST,
     ACK_NACK,
     TEMP_SENSOR_DATA,
-}__attribute__((packed));
+};
 
 struct Header
 {
