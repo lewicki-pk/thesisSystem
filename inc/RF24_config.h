@@ -5,8 +5,6 @@
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  version 2 as published by the Free Software Foundation.
-
- Added Arduino Due support from https://github.com/mcrosson/
  */
  
  /* spaniakos <spaniakos@gmail.com>
@@ -18,15 +16,19 @@
 
   /*** USER DEFINES:  ***/  
   //#define FAILURE_HANDLING
-  #define SERIAL_DEBUG
+  //#define SERIAL_DEBUG
   //#define MINIMAL
   //#define SPI_UART  // Requires library from https://github.com/TMRh20/Sketches/tree/master/SPI_UART
   //#define SOFTSPI   // Requires library from https://github.com/greiman/DigitalIO
+  
   /**********************/
   #define rf24_max(a,b) (a>b?a:b)
   #define rf24_min(a,b) (a<b?a:b)
 
-	
+  #if defined SPI_HAS_TRANSACTION && !defined SPI_UART && !defined SOFTSPI
+    #define RF24_SPI_TRANSACTIONS
+  #endif
+  
 //Generic Linux/ARM and //http://iotdk.intel.com/docs/master/mraa/
 #if ( defined (__linux) || defined (LINUX) ) && defined( __arm__ ) || defined(MRAA) // BeagleBone Black running GNU/Linux or any other ARM-based linux device
 
@@ -34,12 +36,6 @@
   // This behavior can be overridden by calling 'make RF24_SPIDEV=1' or 'make RF24_MRAA=1'
   // The includes.h file defines either RF24_RPi, MRAA or RF24_BBB and includes the correct RF24_arch_config.h file
   #include "arch/includes.h"
-
-//Arduino Due
-#elif defined ARDUINO_SAM_DUE 
-  
-  #define RF24_DUE
-  #include "arch/Due/RF24_arch_config.h"
 
 //ATTiny  
 #elif defined(__AVR_ATtiny25__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtiny85__) || defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny84__)
@@ -58,14 +54,12 @@
   #include "arch/Teensy/RF24_arch_config.h"  
 //Everything else
 #else 
-#ifndef UNIT_TEST
-	#include <Arduino.h>
-#endif
 
-  #include <stddef.h>
+  #include <Arduino.h>
   
- 
-  // Define _BV for non-Arduino platforms and for Arduino DUE
+  // RF modules support 10 Mhz SPI bus speed
+  const uint32_t RF_SPI_SPEED = 10000000;  
+
 #if defined (ARDUINO) && !defined (__arm__) && !defined (__ARDUINO_X86__)
       #if defined SPI_UART
 		#include <SPI_UART.h>
@@ -84,6 +78,7 @@
 		#define _SPI SPI
 	  #endif
 #else
+  // Define _BV for non-Arduino platforms and for Arduino DUE
   #include <stdint.h>
   #include <stdio.h>
   #include <string.h>
@@ -103,7 +98,6 @@
   #define _SPI SPI
 #endif
 
-  
   #ifdef SERIAL_DEBUG
 	#define IF_SERIAL_DEBUG(x) ({x;})
   #else

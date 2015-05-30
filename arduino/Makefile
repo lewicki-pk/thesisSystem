@@ -1,5 +1,5 @@
 CXX=avr-g++
-LD=avr-gcc
+LD=avr-g++
 INCLUDE=-I ~/include/arduino/
 INCLUDE+=-I inc
 INCLUDE+=-I common
