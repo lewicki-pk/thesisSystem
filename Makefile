@@ -38,6 +38,7 @@ clean:
 	rm -rf obj/*.o obj/*.gcda obj/*.gcno coverage.info
 clean_all: clean
 	make clean -C UT
+	make clean -C arduino
 	tags_clear
 
 move: ${PROGRAMS}
