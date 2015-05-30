@@ -2,7 +2,7 @@ CXX=avr-g++
 LD=avr-g++
 INCLUDE=-I ~/include/arduino/
 INCLUDE+=-I inc
-INCLUDE+=-I common
+INCLUDE+=-I ../common
 LIBS=-L ~/lib -lm -larduino 
 LD_FLAGS=-L ~/lib -lm -larduino 
 MCU=-mmcu=atmega328p
