@@ -22,7 +22,7 @@ public:
     virtual bool isNodeInDB(uint8_t id) =0;
     virtual uint8_t getAvailableNodeId() =0;
 
-    virtual bool addSensorNode(ISensorNode& newNode) =0;
+    virtual bool addSensorNode(ISensorNode* newNode) =0;
 
     virtual void clearDatabase() =0;
     virtual void updateReadings(Message msg) =0;

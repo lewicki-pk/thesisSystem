@@ -33,7 +33,7 @@ public:
     bool isNodeInDB(uint8_t id);
     uint8_t getAvailableNodeId();
 
-    bool addSensorNode(ISensorNode& newNode);
+    bool addSensorNode(ISensorNode* newNode);
 
     void clearDatabase();
     void updateReadings(Message msg);

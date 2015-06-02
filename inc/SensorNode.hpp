@@ -20,10 +20,11 @@ public:
 
     SensorNode();
     SensorNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus);
+    SensorNode(const SensorNode&) = default;
+    SensorNode(SensorNode&&) = default;
+    SensorNode& operator=(const SensorNode&) & = default;
+    SensorNode& operator=(SensorNode&&) & = default;
     virtual ~SensorNode();
-
-    virtual SensorNode* clone() =0;
-    SensorNode(const SensorNode& copySource);
 
     bool operator< (const SensorNode& toCompare);
 
@@ -31,10 +32,10 @@ public:
 
 protected:
 
-    std::unique_ptr<uint8_t> nodeId;
-    std::unique_ptr<uint8_t> nodeType;
-    std::unique_ptr<uint8_t> location;
-    std::unique_ptr<uint8_t> nodeStatus;
+    uint8_t nodeId;
+    uint8_t nodeType;
+    uint8_t location;
+    uint8_t nodeStatus;
     std::map<uint8_t, Item> nodeParametersMap;
 
 private:

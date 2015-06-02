@@ -31,9 +31,9 @@ std::map<uint8_t, ISensorNode*>::iterator SensorDB::end()
     return sensorNodeContainer.end(); 
 }
 
-bool SensorDB::addSensorNode(ISensorNode& newNode)
+bool SensorDB::addSensorNode(ISensorNode* newNode)
 {
-    std::pair<uint8_t, ISensorNode*> pairToAdd = std::make_pair(*newNode.getNodeId(), &newNode);
+    std::pair<uint8_t, ISensorNode*> pairToAdd = std::make_pair(newNode->getNodeId(), newNode);
     std::pair<std::map<uint8_t, ISensorNode*>::iterator, bool> result =  sensorNodeContainer.insert(pairToAdd);
     return result.second;
 }

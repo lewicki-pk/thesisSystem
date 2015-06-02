@@ -155,5 +155,5 @@ void Controler::createAndAddNode(Header hdr)
     nodeToRegister->setNodeType(hdr.nodeType);
     nodeToRegister->setLocation(hdr.location);
 
-    sensorDB->addSensorNode(*nodeToRegister);
+    sensorDB->addSensorNode(nodeToRegister);
 }

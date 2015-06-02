@@ -19,8 +19,8 @@ TEST_F(SensorDBTest, addingNewAndDuplicatedNodeToDB)
 {
 
     TemperatureNode* sampleTempNode = new TemperatureNode(1, 1, 1, 1, 22, 40, 0);
-    ASSERT_EQ(*sampleTempNode->getNodeId(), 1);
+    ASSERT_EQ(sampleTempNode->getNodeId(), 1);
     
-    ASSERT_TRUE(sensorDB->addSensorNode(*sampleTempNode));
-    ASSERT_FALSE(sensorDB->addSensorNode(*sampleTempNode));
+    ASSERT_TRUE(sensorDB->addSensorNode(sampleTempNode));
+    ASSERT_FALSE(sensorDB->addSensorNode(sampleTempNode));
 }

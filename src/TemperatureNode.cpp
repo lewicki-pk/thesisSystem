@@ -2,7 +2,7 @@
 #include <cstring>
 
 TemperatureNode::TemperatureNode() :
-    SensorNode(), lastReadingStatus(nullptr)
+    SensorNode(), lastReadingStatus(0)
 {
     Item emptyItem = {ElementType::TEXT, "", 0};
     nodeParametersMap.insert(std::pair<uint8_t, Item>(0, emptyItem));
@@ -11,7 +11,7 @@ TemperatureNode::TemperatureNode() :
 }
 
 TemperatureNode::TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t temperatureVal, uint8_t humidityVal, uint8_t lastReadingVal) :
-    SensorNode(nodeId, nodeType, location, nodeStatus), lastReadingStatus(new uint8_t(lastReadingVal))
+    SensorNode(nodeId, nodeType, location, nodeStatus), lastReadingStatus(lastReadingVal)
 {
     std::string nodeIdStr = std::to_string(nodeId) + "_";
     Item insertedItem = {ElementType::TEXT, nodeIdStr + "Status", nodeStatus};
@@ -28,31 +28,14 @@ TemperatureNode::TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t locat
 
 TemperatureNode::~TemperatureNode() { }
 
-TemperatureNode* TemperatureNode::clone()
+std::map<uint8_t, Item> TemperatureNode::getNodeParametersMap()
 {
-    return (new TemperatureNode(*this));
-}
-
-TemperatureNode::TemperatureNode(const TemperatureNode& copySource) : SensorNode()
-{
-    if (this != &copySource) {
-        this->nodeId.reset(new uint8_t(*copySource.nodeId.get()));
-        this->nodeType.reset(new uint8_t(*copySource.nodeType.get()));
-        this->location.reset(new uint8_t(*copySource.location.get()));
-        this->nodeStatus.reset(new uint8_t(*copySource.nodeStatus.get()));
-        this->lastReadingStatus.reset(new uint8_t(*copySource.lastReadingStatus.get()));
-        this->nodeParametersMap = copySource.nodeParametersMap;
-    }
-}
-
-std::map<uint8_t, Item>* TemperatureNode::getNodeParametersMap()
-{
-    return &nodeParametersMap;
+    return nodeParametersMap;
 }
 
 void TemperatureNode::setNodeStatus(uint8_t newVal) {
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(0);
-    Item item = {ElementType::TEXT, std::to_string(*getNodeId()) + "_Status", newVal};
+    Item item = {ElementType::TEXT, std::to_string(getNodeId()) + "_Status", newVal};
     if (pair != nodeParametersMap.end())
         pair->second = item;
     else
@@ -61,66 +44,66 @@ void TemperatureNode::setNodeStatus(uint8_t newVal) {
 
 void TemperatureNode::setTemperatureValue(uint8_t newVal) {
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(1);
-    Item item = {ElementType::TEXT, std::to_string(*getNodeId()) + "_Temperature", newVal};
+    Item item = {ElementType::TEXT, std::to_string(getNodeId()) + "_Temperature", newVal};
     if (pair != nodeParametersMap.end())
         pair->second = item;
     else
-        nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(1, item));
 }
 
 void TemperatureNode::setHumidityValue(uint8_t newVal) {
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(2);
-    Item item = {ElementType::TEXT, std::to_string(*getNodeId()) + "_Humidity", newVal};
+    Item item = {ElementType::TEXT, std::to_string(getNodeId()) + "_Humidity", newVal};
     if (pair != nodeParametersMap.end())
         pair->second = item;
     else
-        nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
+        nodeParametersMap.insert(std::pair<uint8_t, Item>(2, item));
 }
 
-uint8_t* TemperatureNode::getLastReadingStatus() {
-    return lastReadingStatus.get();
+uint8_t TemperatureNode::getLastReadingStatus() {
+    return lastReadingStatus;
 }
 
 void TemperatureNode::setLastReadingStatus(uint8_t newVal) {
-    lastReadingStatus.reset(new uint8_t(newVal));
+    lastReadingStatus = newVal;
 }
 
-uint8_t* TemperatureNode::getNodeId()
+uint8_t TemperatureNode::getNodeId()
 {
-    return nodeId.get();
+    return nodeId;
 }
 
 void TemperatureNode::setNodeId(uint8_t newVal)
 {
-    nodeId.reset(new uint8_t(newVal));
-    this->setNodeStatus((*nodeParametersMap.find(0)).second.itemValue);
-    this->setTemperatureValue((*nodeParametersMap.find(1)).second.itemValue);
-    this->setHumidityValue((*nodeParametersMap.find(2)).second.itemValue);
+    nodeId = newVal;
+    nodeParametersMap.find(0)->second.itemName = std::to_string(getNodeId()) + "_Status";
+    nodeParametersMap.find(1)->second.itemName = std::to_string(getNodeId()) + "_Temperature";
+    nodeParametersMap.find(2)->second.itemName = std::to_string(getNodeId()) + "_Humidity";
 }
 
-uint8_t* TemperatureNode::getNodeType()
+uint8_t TemperatureNode::getNodeType()
 {
-    return nodeType.get();
+    return nodeType;
 }
 
 void TemperatureNode::setNodeType(uint8_t newVal)
 {
-    nodeType.reset(new uint8_t(newVal));
+    nodeType = newVal;
 }
 
-uint8_t* TemperatureNode::getLocation()
+uint8_t TemperatureNode::getLocation()
 {
-    return location.get();
+    return location;
 }
 
 void TemperatureNode::setLocation(uint8_t newVal)
 {
-    location.reset(new uint8_t(newVal));
+    location = newVal;
 }
 
-uint8_t* TemperatureNode::getNodeStatus()
+uint8_t TemperatureNode::getNodeStatus()
 {
-    return &((*nodeParametersMap.find(0)).second.itemValue);
+    return nodeParametersMap.find(0)->second.itemValue;
 }
 
 void TemperatureNode::updateValues(MsgData msgData)
@@ -129,5 +112,6 @@ void TemperatureNode::updateValues(MsgData msgData)
         setTemperatureValue(msgData.tempSensorData.temperature);
         setHumidityValue(msgData.tempSensorData.humidity);
     }
+    lastReadingStatus = msgData.tempSensorData.result;
 }
 

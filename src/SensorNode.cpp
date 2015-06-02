@@ -3,12 +3,11 @@
 #include <cstring>
 
 SensorNode::SensorNode() :
-    nodeId(nullptr), nodeType(nullptr), location(nullptr), nodeStatus(nullptr)
+    nodeId(0), nodeType(0), location(0), nodeStatus(0)
 { }
 
 SensorNode::SensorNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus) :
-    nodeId(new uint8_t(nodeId)), nodeType(new uint8_t(nodeType)),
-    location(new uint8_t(location)), nodeStatus(new uint8_t(nodeStatus))
+    nodeId(nodeId), nodeType(nodeType), location(location), nodeStatus(nodeStatus)
 { }
 
 SensorNode::~SensorNode()
@@ -23,9 +22,9 @@ bool SensorNode::operator< (const SensorNode& toCompare) {
 
 bool SensorNode::isEqualTo(const SensorNode& sn)
 {
-    if ((*this->nodeId.get() == *sn.nodeId.get()) &&
-        (*this->nodeType.get() == *sn.nodeType.get()) &&
-        (*this->location.get() == *sn.location.get()))
+    if ((this->nodeId == sn.nodeId) &&
+        (this->nodeType == sn.nodeType) &&
+        (this->location == sn.location))
         return true;
     else
         return false;
