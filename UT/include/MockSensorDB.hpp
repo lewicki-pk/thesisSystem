@@ -10,7 +10,7 @@ public:
     MOCK_METHOD0(getSize, size_t());
     MOCK_METHOD1(isNodeInDB, bool(uint8_t id));
     MOCK_METHOD0(getAvailableNodeId, uint8_t());
-    MOCK_METHOD1(addSensorNode, bool(ISensorNode& newNode));
+    MOCK_METHOD1(addSensorNode, bool(ISensorNode* newNode));
     MOCK_METHOD0(clearDatabase, void());
     MOCK_METHOD1(updateReadings, void(Message msg));
 };

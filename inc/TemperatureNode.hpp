@@ -40,6 +40,8 @@ public:
 
     void updateValues(MsgData msgData);
 
+    std::string generateItems();
+
 protected:
 
     uint8_t lastReadingStatus;

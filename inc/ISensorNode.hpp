@@ -29,5 +29,7 @@ public:
     virtual void setNodeStatus(uint8_t newVal) =0;
 
     virtual void updateValues(MsgData msgData) =0;
+
+    virtual std::string generateItems() =0;
 };
 

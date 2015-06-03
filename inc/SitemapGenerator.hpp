@@ -12,9 +12,6 @@
 #include <SensorDB.hpp>
 #include <CommonInterfaces.hpp>
 
-typedef std::pair<uint8_t, Item> sensorParametersPair;
-typedef std::map<uint8_t, Item> sensorParametersMap;
-
 class SitemapGenerator: public ISitemapGenerator
 {
 public:

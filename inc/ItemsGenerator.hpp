@@ -17,7 +17,7 @@ class ItemsGenerator: public IItemsGenerator
 {
 public:
 
-    ItemsGenerator(std::shared_ptr<ISensorDB> sensorDBPtr);
+    ItemsGenerator();
 
     virtual ~ItemsGenerator();
 
@@ -29,11 +29,13 @@ public:
 
 protected:
 
+    bool generateItemsForEachSensorNode(std::pair<const uint8_t, ISensorNode*> sensorContainter);
+
 private:
 
     std::string elementTypeToString(ElementType& typeToConvert);
 
-    std::shared_ptr<ISensorDB> sensorDBPtr;
+    SensorDB* sensorDBPtr;
     std::stringstream itemsConfigFile;
 
 };

@@ -115,3 +115,9 @@ void TemperatureNode::updateValues(MsgData msgData)
     lastReadingStatus = msgData.tempSensorData.result;
 }
 
+std::string TemperatureNode::generateItems()
+{
+    std::string returnString = "Number " + nodeParametersMap.find(1)->second.itemName + " \"Temperature [%.1f °C]\" <temperature> {}\n";
+    return returnString;
+}
+

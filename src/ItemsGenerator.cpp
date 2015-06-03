@@ -1,6 +1,6 @@
 #include "ItemsGenerator.hpp"
 
-ItemsGenerator::ItemsGenerator(std::shared_ptr<ISensorDB> sensorDBPtr) : sensorDBPtr(sensorDBPtr)
+ItemsGenerator::ItemsGenerator() : sensorDBPtr(SensorDB::getInstance())
 {
 }
 
@@ -8,7 +8,24 @@ ItemsGenerator::~ItemsGenerator() {}
 
 bool ItemsGenerator::generateFullItems()
 {
-    return true;
+    bool areItemsGenerated = true;
+    itemsConfigFile.str("");
+
+    for (auto sensorItr = sensorDBPtr->begin();
+            sensorItr != sensorDBPtr->end();
+            sensorItr++) {
+        areItemsGenerated &= generateItemsForEachSensorNode(*sensorItr);
+
+    }
+
+    return areItemsGenerated;
+}
+
+bool ItemsGenerator::generateItemsForEachSensorNode(std::pair<const uint8_t, ISensorNode*> sensorContainter)
+{
+    bool isSensorGenerated = true;
+    itemsConfigFile << sensorContainter.second->generateItems();
+    return isSensorGenerated;
 }
 
 std::string ItemsGenerator::elementTypeToString(ElementType& typeToConvert) {

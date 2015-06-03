@@ -30,6 +30,8 @@ public:
 
     bool isEqualTo(const SensorNode& sn);
 
+    std::string generateItems() =0;
+
 protected:
 
     uint8_t nodeId;
