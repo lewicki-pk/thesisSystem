@@ -25,6 +25,6 @@ public:
     virtual void replyWithResetRequest(Header hdr) =0;
 
     virtual void replyWithAck(Header hdr) =0;
-};
 
+};
 

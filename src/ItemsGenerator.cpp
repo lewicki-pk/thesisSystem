@@ -1,12 +1,19 @@
 #include "ItemsGenerator.hpp"
 
+#include <fstream>
+
 ItemsGenerator::ItemsGenerator() : sensorDBPtr(SensorDB::getInstance())
 {
 }
 
 ItemsGenerator::~ItemsGenerator() {}
 
-bool ItemsGenerator::generateFullItems()
+std::string ItemsGenerator::getItemsConfigFile()
+{
+    return itemsConfigFile.str();
+}
+
+bool ItemsGenerator::generateItems()
 {
     bool areItemsGenerated = true;
     itemsConfigFile.str("");
@@ -43,4 +50,13 @@ std::string ItemsGenerator::elementTypeToString(ElementType& typeToConvert) {
     }
     return returnString;
 }
-    
+
+bool ItemsGenerator::saveItemsToFile(std::string filepath)
+{
+    std::ofstream fileStream;
+    fileStream.open(filepath.c_str(), std::ofstream::trunc);
+
+    fileStream << itemsConfigFile.str();
+
+    fileStream.close();
+}

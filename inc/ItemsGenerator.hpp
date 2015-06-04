@@ -21,11 +21,11 @@ public:
 
     virtual ~ItemsGenerator();
 
-    bool generateFullItems();
+    bool generateItems();
 
-    std::string getItemsConfigFile() {
-        return itemsConfigFile.str();
-    }
+    std::string getItemsConfigFile();
+
+    bool saveItemsToFile(std::string filepath);
 
 protected:
 

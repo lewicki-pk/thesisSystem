@@ -15,18 +15,18 @@ protected:
     void TearDown() {};
 };
 
-TEST_F(SitemapGeneratorTest, generateFullSitemap_empty)
+TEST_F(SitemapGeneratorTest, generateSitemap_empty)
 {
     std::stringstream goldenSitemap;
     goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\n}\n";
 
     SitemapGenerator* testableGenerator = new SitemapGenerator();
-    testableGenerator->generateFullSitemap();
+    testableGenerator->generateSitemap();
 
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
 }
 
-TEST_F(SitemapGeneratorTest, generateFullSitemap_one_temperatureNode)
+TEST_F(SitemapGeneratorTest, generateSitemap_one_temperatureNode)
 {
     std::stringstream goldenSitemap;
     goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame {\nText item=1_Status\nText item=1_Temperature\nText item=1_Humidity\n}\n}\n";
@@ -45,12 +45,13 @@ TEST_F(SitemapGeneratorTest, generateFullSitemap_one_temperatureNode)
 
     SensorDB::getInstance()->addSensorNode(sampleTempNode);
 
-    testableGenerator->generateFullSitemap();
+    testableGenerator->generateSitemap();
 
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
+    testableGenerator->saveSitemapToFile("/home/lewiatan/repository/thesisSystem/UT/tmp/thesisSystem.sitemap");
 }
 
-TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes)
+TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes)
 {
     std::stringstream goldenSitemap;
     goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame {\nText item=1_Status\nText item=1_Temperature\nText item=1_Humidity\n}\nFrame {\nText item=2_Status\nText item=2_Temperature\nText item=2_Humidity\n}\n}\n";
@@ -77,12 +78,12 @@ TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes)
 
     SensorDB::getInstance()->addSensorNode(sampleTempNode2);
 
-    testableGenerator->generateFullSitemap();
+    testableGenerator->generateSitemap();
 
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
 }
 
-TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes_clone)
+TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes_clone)
 {
     std::stringstream goldenSitemap;
     goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame {\nText item=1_Status\nText item=1_Temperature\nText item=1_Humidity\n}\nFrame {\nText item=2_Status\nText item=2_Temperature\nText item=2_Humidity\n}\n}\n";
@@ -107,7 +108,7 @@ TEST_F(SitemapGeneratorTest, generateFullSitemap_two_temperatureNodes_clone)
 
     SensorDB::getInstance()->addSensorNode(sampleTempNode2);
 
-    testableGenerator->generateFullSitemap();
+    testableGenerator->generateSitemap();
 
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
 }

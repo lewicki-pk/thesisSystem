@@ -4,8 +4,10 @@
 #include <string>
 #include <queue>
 
-#include <SensorDB.hpp>
 #include <CommonMessages.hpp>
+#include <SensorDB.hpp>
+#include <SitemapGenerator.hpp>
+#include <ItemsGenerator.hpp>
 
 #ifndef UNIT_TEST
 
@@ -36,15 +38,11 @@ public:
 
     void replyWithAck(Header hdr);
 
+    void generateConfigFiles(std::string filepath);
+
 protected:
 
 private:
-
-    std::queue<Message>readingsContainer;
-
-    std::queue<Message>initsContainer;
-
-    std::queue<Message>repliesContainer;
 
     void initSensorDB()   {
         sensorDB = SensorDB::getInstance();
@@ -57,6 +55,17 @@ private:
 #ifndef UNIT_TEST
     RF24 radio;
 #endif
+
+    std::queue<Message>readingsContainer;
+
+    std::queue<Message>initsContainer;
+
+    std::queue<Message>repliesContainer;
+
+    SitemapGenerator sitemapGenerator;
+
+    ItemsGenerator itemsGenerator;
+
     SensorDB* sensorDB;
 };
 

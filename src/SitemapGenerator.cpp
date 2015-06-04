@@ -1,12 +1,19 @@
 #include "SitemapGenerator.hpp"
 
+#include <fstream>
+
 SitemapGenerator::SitemapGenerator() : sensorDBPtr(SensorDB::getInstance())
 {
 }
 
 SitemapGenerator::~SitemapGenerator() {}
 
-void SitemapGenerator::generateFullSitemap()
+std::string SitemapGenerator::getSitemapConfigFile()
+{
+    return sitemapConfigFile.str();
+}
+
+void SitemapGenerator::generateSitemap()
 {
     sitemapConfigFile.str(std::string());
     openSitemapHead();
@@ -61,4 +68,14 @@ std::string SitemapGenerator::elementTypeToString(ElementType& typeToConvert) {
     }
     return returnString;
 }
-    
+
+bool SitemapGenerator::saveSitemapToFile(std::string filepath)
+{
+    std::ofstream fileStream;
+    std::string sitemapFilePath = filepath + "/items/thesisSystem.items";
+    fileStream.open(sitemapFilePath.c_str(), std::ofstream::trunc);
+
+    fileStream << sitemapConfigFile.str();
+
+    fileStream.close();
+}

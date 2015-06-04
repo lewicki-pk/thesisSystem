@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-class ConstrolerTest : public ::testing::Test
+class ControlerTest : public ::testing::Test
 {
 protected:
 
@@ -11,7 +11,7 @@ protected:
     void TearDown() { };
 };
 
-TEST_F(ConstrolerTest, addNewNodeBasedOnInitMessage)
+TEST_F(ControlerTest, addNewNodeBasedOnInitMessage)
 {
     Header hdr {0, 1, 0, 1, 123, static_cast<Status>(0)}; 
     InitMsgData initData = {0};

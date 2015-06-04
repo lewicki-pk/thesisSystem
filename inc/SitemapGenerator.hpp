@@ -20,11 +20,11 @@ public:
 
     virtual ~SitemapGenerator();
 
-    void generateFullSitemap();
+    void generateSitemap();
 
-    std::string getSitemapConfigFile() {
-        return sitemapConfigFile.str();
-    }
+    bool saveSitemapToFile(std::string filepath);
+
+    std::string getSitemapConfigFile();
 
 protected:
 

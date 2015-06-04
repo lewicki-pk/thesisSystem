@@ -47,12 +47,19 @@ void Controler::receiveMessages()
 
 void Controler::handleInitializations()
 {
-    if (!initsContainer.empty())
+    bool recreateConfigFiles = false;
+    while (!initsContainer.empty())
     {
         std::cout << "DBG: handling Initializations" << std::endl;
         Message msg = initsContainer.front();
         registerNode(msg);
         initsContainer.pop();
+        recreateConfigFiles = true;
+    }
+    if (recreateConfigFiles)
+    {
+        std::string openHabConfigRoot = "/home/lewiatan/openHAB-runtime/configurations"; //TODO filepaths in one place
+        generateConfigFiles(openHabConfigRoot);
     }
 }
 
@@ -63,7 +70,8 @@ void Controler::handleMessages()
         std::cout << "DBG: handling messages" << std::endl;
         Message msg = readingsContainer.front();
         TempSensorData data = msg.msgData.tempSensorData;
-        std::cout << "received: status: " << data.result << ", temperature: " << data.temperature << " degrees, humidity: " << data.humidity << "%" << std::endl; //TODO here we have some strange numbers - check if we have proper types
+        std::cout << "received: status: " << data.result << ", temperature: " <<
+            data.temperature << " degrees, humidity: " << data.humidity << "%" << std::endl;
         sensorDB->updateReadings(msg);
         readingsContainer.pop();
     }
@@ -156,4 +164,13 @@ void Controler::createAndAddNode(Header hdr)
     nodeToRegister->setLocation(hdr.location);
 
     sensorDB->addSensorNode(nodeToRegister);
+}
+
+void Controler::generateConfigFiles(std::string filepath)
+{
+    sitemapGenerator.generateSitemap();
+    sitemapGenerator.saveSitemapToFile(filepath);
+
+    itemsGenerator.generateItems();
+    itemsGenerator.saveItemsToFile(filepath);
 }

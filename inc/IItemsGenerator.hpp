@@ -9,7 +9,7 @@ public:
 
     virtual ~IItemsGenerator() { }
 
-    virtual bool generateFullItems() =0;
+    virtual bool generateItems() =0;
 
     virtual std::string getItemsConfigFile() =0;
 };
