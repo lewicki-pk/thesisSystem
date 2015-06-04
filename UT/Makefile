@@ -15,6 +15,8 @@ CXXFLAGS += -g -Wall -Wextra -pthread -DUNIT_TEST --coverage
 # created to the list.
 TESTS = SitemapGeneratorTest
 
+DEBUG = 
+
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
 GTEST_HEADERS = include/gtest/*.h \
@@ -34,7 +36,7 @@ TEST_CPP_FILES = $(wildcard src/*.cpp)
 TEST_OBJ_FILES := $(addprefix obj/,$(notdir $(TEST_CPP_FILES:.cpp=.o)))
 
 UnitTests : $(OBJ_FILES) $(TEST_OBJ_FILES) make/gtest_main.a make/gmock_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(DEBUG) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LDFLAGS)
 
 test : all
 	./UnitTests
@@ -43,12 +45,12 @@ clean :
 	rm -rf UnitTests *.info ../obj/* obj/* coverage.info result/
 
 obj/%.o: src/%.cpp $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
+	$(CXX) $(CPPFLAGS) $(DEBUG) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
 
 sources : ${OBJ_FILES}
 
 ../obj/%.o: ../src/%.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
+	$(CXX) $(CPPFLAGS) $(DEBUG) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
 
 result :
 	lcov -d './obj' -d './UT/obj' --zerocounters

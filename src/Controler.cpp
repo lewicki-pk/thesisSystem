@@ -3,8 +3,8 @@
 #include <Controler.hpp>
 #include <TemperatureNode.hpp>
 
-// Constructors/Destructors
-//  
+#include <DebugLog.hpp>
+
 
 Controler::Controler()
 #ifndef UNIT_TEST
@@ -31,11 +31,11 @@ void Controler::receiveMessages()
         case MsgType::ACK_NACK : //AckNack
             break;
         case MsgType::TEMP_SENSOR_DATA : //TemperatureNodeData
-            std::cout << "DBG: Received TEMP_SENSOR_DATA" << std::endl;
+            DEBUG_LOG("Received message of type TEMP_SENSOR_DATA");
             readingsContainer.push(receivedData);
             break;
         case MsgType::INITIALIZATION : //Initialization
-            std::cout << "DBG: Received INITIALIZATION message" << std::endl;
+            DEBUG_LOG("Received message of type INITIALIZATION");
             initsContainer.push(receivedData);
             break;
         default :
@@ -50,7 +50,7 @@ void Controler::handleInitializations()
     bool recreateConfigFiles = false;
     while (!initsContainer.empty())
     {
-        std::cout << "DBG: handling Initializations" << std::endl;
+        DEBUG_LOG("Handling INITIALIZATION messages");
         Message msg = initsContainer.front();
         registerNode(msg);
         initsContainer.pop();
@@ -67,11 +67,13 @@ void Controler::handleMessages()
 {
     if (!readingsContainer.empty())
     {
-        std::cout << "DBG: handling messages" << std::endl;
+        DEBUG_LOG("Handling received Update Messages");
         Message msg = readingsContainer.front();
-        TempSensorData data = msg.msgData.tempSensorData;
-        std::cout << "received: status: " << data.result << ", temperature: " <<
-            data.temperature << " degrees, humidity: " << data.humidity << "%" << std::endl;
+        {
+            TempSensorData data = msg.msgData.tempSensorData;
+            std::cout << "received: status: " << data.result << ", temperature: " <<
+                data.temperature << " degrees, humidity: " << data.humidity << "%" << std::endl;
+        }
         sensorDB->updateReadings(msg);
         readingsContainer.pop();
     }
@@ -106,11 +108,11 @@ void Controler::registerNode(Message msg)
         hdr.nodeId = sensorDB->getAvailableNodeId();
     }
     else if (!sensorDB->isNodeInDB(hdr.nodeId)) {
-        std::cout << "DBG: registerNode: this node is not in Database" << std::endl;
+        DEBUG_LOG("This node has Id of " + std::to_string(hdr.nodeId) + "but was not found in DB. Replying with reset request");
         return replyWithResetRequest(hdr);
     }
 
-    std::cout << "DBG: adding node to DB" << std::endl;
+    DEBUG_LOG("Adding new node to DB");
     createAndAddNode(hdr);
     replyWithAck(hdr);
 }
@@ -139,7 +141,7 @@ void Controler::sendResponses()
 {
     if (!repliesContainer.empty())
     {
-        std::cout << "DBG: replying to some message" << std::endl;
+        DEBUG_LOG("Sending RESPONSE messages");
         Message msg = repliesContainer.front();
 #ifndef UNIT_TEST
         radio.stopListening();
