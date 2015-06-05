@@ -23,6 +23,8 @@ CFLAGS+=-std=c++11 --coverage
 PROGRAMS = thesisSystem
 CPP_FILES = $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
+C_FILES = $(wildcard src/*.c)
+OBJ_FILES += $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 INCLUDE=-Iinc
 INCLUDE+=-Icommon
