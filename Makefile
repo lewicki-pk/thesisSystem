@@ -6,10 +6,10 @@ LDFLAGS=-lstdc++
 else
 ifeq ($(TARGET),linux)
 CFLAGS =
-LDFLAGS=-lstdc++ -lrf24-bcm
+LDFLAGS=-lstdc++ -lrf24-bcm -Llib/ -lpaho-mqtt3a.so
 else
 CFLAGS=-mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
-LDFLAGS=-lstdc++ -lrf24-bcm
+LDFLAGS=-lstdc++ -lrf24-bcm -Llib/ -lpaho-mqtt3a.so
 endif
 endif
 
@@ -28,6 +28,7 @@ OBJ_FILES += $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 INCLUDE=-Iinc
 INCLUDE+=-Icommon
+INCLUDE+=-Iinc/paho
 
 
 all: ${PROGRAMS} move
