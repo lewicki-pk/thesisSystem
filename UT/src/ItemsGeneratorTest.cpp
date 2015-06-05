@@ -29,7 +29,7 @@ TEST_F(ItemsGeneratorTest, createItemsGenerator_withEmptySensorDB)
 TEST_F(ItemsGeneratorTest, createItemsGenerator_withOneTemperatureNode_noBinding_noGroup)
 {
     std::stringstream goldenItems;
-    goldenItems << "Number 2_Status \"Status [%.1f]\" <temperature> {}\nNumber 2_Temperature \"Temperature [%.1f °C]\" <temperature> {}\nNumber 2_Humidity \"Humidity [%.1f %%]\" <temperature> {}\n";
+    goldenItems << "Number Status_2 \"Status [%.1f]\" <temperature> {}\nNumber Temperature_2 \"Temperature [%.1f °C]\" <temperature> {}\nNumber Humidity_2 \"Humidity [%.1f %%]\" <temperature> {}\n";
 
     TemperatureNode* sampleTempNode2 = new TemperatureNode(2,1,3,1,25,50,0);
 
