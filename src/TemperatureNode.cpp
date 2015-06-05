@@ -1,5 +1,6 @@
 #include "TemperatureNode.hpp"
 #include <cstring>
+#include "MQTTProxy.hpp"
 
 TemperatureNode::TemperatureNode() :
     SensorNode(), lastReadingStatus(0)
@@ -48,6 +49,7 @@ void TemperatureNode::setTemperatureValue(uint8_t newVal) {
         pair->second = item;
     else
         nodeParametersMap.insert(std::pair<uint8_t, Item>(1, item));
+    MQTTProxy proxy; proxy.publish("/Temperature/" + std::to_string(nodeId), std::to_string(newVal));
 
 }
 
@@ -58,6 +60,7 @@ void TemperatureNode::setHumidityValue(uint8_t newVal) {
         pair->second = item;
     else
         nodeParametersMap.insert(std::pair<uint8_t, Item>(2, item));
+    MQTTProxy proxy; proxy.publish("/Humidity/" + std::to_string(nodeId), std::to_string(newVal));
 }
 
 uint8_t TemperatureNode::getLastReadingStatus() {
@@ -66,6 +69,7 @@ uint8_t TemperatureNode::getLastReadingStatus() {
 
 void TemperatureNode::setLastReadingStatus(uint8_t newVal) {
     lastReadingStatus = newVal;
+    MQTTProxy proxy; proxy.publish("/Status/" + std::to_string(nodeId), std::to_string(newVal));
 }
 
 uint8_t TemperatureNode::getNodeId()

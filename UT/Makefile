@@ -25,8 +25,9 @@ GTEST_HEADERS = include/gtest/*.h \
                 include/gmock/internal/*.h
 
 INCLUDE=-Iinclude -I../inc/ -I../common/ 
+INCLUDE+=-I../inc/paho
 
-LDFLAGS=-lpthread -lstdc++
+LDFLAGS=-lpthread -lstdc++ -L../lib/ -lpaho-mqtt3a -lpaho-mqtt3c
 
 all : sources UnitTests
 
@@ -39,6 +40,7 @@ UnitTests : $(OBJ_FILES) $(TEST_OBJ_FILES) make/gtest_main.a make/gmock_main.a
 	$(CXX) $(CPPFLAGS) $(DEBUG) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LDFLAGS)
 
 test : all
+	export LD_LIBRARY_PATH=../lib/:$(LD_LIBRARY_PATH) #TODO remove when MQTTProxy is mocked
 	./UnitTests
 
 clean : 
