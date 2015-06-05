@@ -26,10 +26,10 @@ TEST_F(ItemsGeneratorTest, createItemsGenerator_withEmptySensorDB)
     EXPECT_EQ(goldenItems.str(), testableGenerator->getItemsConfigFile());
 }
 
-TEST_F(ItemsGeneratorTest, createItemsGenerator_withOneTemperatureNode_noBinding_noGroup)
+TEST_F(ItemsGeneratorTest, createItemsGenerator_withOneTemperatureNode)
 {
     std::stringstream goldenItems;
-    goldenItems << "Number Status_2 \"Status [%.1f]\" <temperature> {}\nNumber Temperature_2 \"Temperature [%.1f °C]\" <temperature> {}\nNumber Humidity_2 \"Humidity [%.1f %%]\" <temperature> {}\n";
+    goldenItems << "Number Status_2 \"Status [%.1f]\" <temperature> { mqtt=\"<[thesisSystem:/Status/2:state:default\" }\nNumber Temperature_2 \"Temperature [%.1f \xC2\xB0" "C]\" <temperature> { mqtt=\"<[thesisSystem:/Temperature/2:state:default\" }\nNumber Humidity_2 \"Humidity [%.1f %%]\" <temperature> { mqtt=\"<[thesisSystem:/Humidity/2:state:default\" }\n";
 
     TemperatureNode* sampleTempNode2 = new TemperatureNode(2,1,3,1,25,50,0);
 

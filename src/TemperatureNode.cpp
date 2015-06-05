@@ -116,9 +116,9 @@ void TemperatureNode::updateValues(MsgData msgData)
 
 std::string TemperatureNode::generateItems()
 {
-    std::string itemsString = "Number " + nodeParametersMap.find(0)->second.itemName + " \"Status [%.1f]\" <temperature> {}\n";
-    itemsString += "Number " + nodeParametersMap.find(1)->second.itemName + " \"Temperature [%.1f °C]\" <temperature> {}\n";
-    itemsString += "Number " + nodeParametersMap.find(2)->second.itemName + " \"Humidity [%.1f %%]\" <temperature> {}\n";
+    std::string itemsString = "Number " + nodeParametersMap.find(0)->second.itemName + " \"Status [%.1f]\" <temperature> { mqtt=\"<[thesisSystem:/Status/" + std::to_string(nodeId) + ":state:default\" }\n";
+    itemsString += "Number " + nodeParametersMap.find(1)->second.itemName + " \"Temperature [%.1f °C]\" <temperature> { mqtt=\"<[thesisSystem:/Temperature/" + std::to_string(nodeId) + ":state:default\" }\n";
+    itemsString += "Number " + nodeParametersMap.find(2)->second.itemName + " \"Humidity [%.1f %%]\" <temperature> { mqtt=\"<[thesisSystem:/Humidity/" + std::to_string(nodeId) + ":state:default\" }\n";
 
     return itemsString;
 }
