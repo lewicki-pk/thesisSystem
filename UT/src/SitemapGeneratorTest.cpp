@@ -48,7 +48,6 @@ TEST_F(SitemapGeneratorTest, generateSitemap_one_temperatureNode)
     testableGenerator->generateSitemap();
 
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
-    testableGenerator->saveSitemapToFile("/home/lewiatan/repository/thesisSystem/UT/tmp/thesisSystem.sitemap");
 }
 
 TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes)
@@ -81,6 +80,7 @@ TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes)
     testableGenerator->generateSitemap();
 
     ASSERT_EQ(goldenSitemap.str(), testableGenerator->getSitemapConfigFile());
+    testableGenerator->saveSitemapToFile("/home/lewiatan/repository/thesisSystem/UT/tmp/thesisSystem.sitemap");
 }
 
 TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes_clone)

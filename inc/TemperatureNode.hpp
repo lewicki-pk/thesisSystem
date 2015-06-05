@@ -1,6 +1,7 @@
-#ifndef TEMPERATURENODE_H
-#define TEMPERATURENODE_H
+#pragma once
+
 #include "SensorNode.hpp"
+#include "MQTTProxy.hpp"
 
 class TemperatureNode : public SensorNode
 {
@@ -50,4 +51,3 @@ private:
 
 };
 
-#endif // TEMPERATURENODE_H
