@@ -6,10 +6,10 @@ LDFLAGS=-lstdc++
 else
 ifeq ($(TARGET),linux)
 CFLAGS =
-LDFLAGS=-lstdc++ -lrf24-bcm -Llib/ -lpaho-mqtt3a.so
+LDFLAGS=-lstdc++ -lrf24-bcm -Llib/ -lpaho-mqtt3a -lpaho-mqtt3c
 else
 CFLAGS=-mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
-LDFLAGS=-lstdc++ -lrf24-bcm -Llib/ -lpaho-mqtt3a.so
+LDFLAGS=-lstdc++ -lrf24-bcm -Llib/ -lpaho-mqtt3a -lpaho-mqtt3c
 endif
 endif
 
