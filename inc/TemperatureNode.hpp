@@ -1,7 +1,6 @@
 #pragma once
 
 #include "SensorNode.hpp"
-#include "MQTTProxy.hpp"
 
 class TemperatureNode : public SensorNode
 {

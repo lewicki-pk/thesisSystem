@@ -49,11 +49,6 @@ void TemperatureNode::setTemperatureValue(uint8_t newVal) {
     else
         nodeParametersMap.insert(std::pair<uint8_t, Item>(1, item));
 
-    MQTTProxy proxy;
-    std::string topic = "/Temperature/" + std::to_string(nodeId);
-    std::string value = std::to_string(newVal);
-    proxy.publish(topic, value);
-
 }
 
 void TemperatureNode::setHumidityValue(uint8_t newVal) {
@@ -63,11 +58,6 @@ void TemperatureNode::setHumidityValue(uint8_t newVal) {
         pair->second = item;
     else
         nodeParametersMap.insert(std::pair<uint8_t, Item>(2, item));
-
-    MQTTProxy proxy;
-    std::string topic = "/Humidity/" + std::to_string(nodeId);
-    std::string value = std::to_string(newVal);
-    proxy.publish(topic, value);
 }
 
 uint8_t TemperatureNode::getLastReadingStatus() {
@@ -76,11 +66,6 @@ uint8_t TemperatureNode::getLastReadingStatus() {
 
 void TemperatureNode::setLastReadingStatus(uint8_t newVal) {
     lastReadingStatus = newVal;
-
-    MQTTProxy proxy;
-    std::string topic = "/Status/" + std::to_string(nodeId);
-    std::string value = std::to_string(newVal);
-    proxy.publish(topic, value);
 }
 
 uint8_t TemperatureNode::getNodeId()
