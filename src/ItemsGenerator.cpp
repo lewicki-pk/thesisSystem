@@ -54,7 +54,9 @@ std::string ItemsGenerator::elementTypeToString(ElementType& typeToConvert) {
 bool ItemsGenerator::saveItemsToFile(std::string filepath)
 {
     std::ofstream fileStream;
-    fileStream.open(filepath.c_str(), std::ofstream::trunc);
+    std::string itemsFilePath = filepath + "/items/thesisSystem.items";
+
+    fileStream.open(itemsFilePath.c_str(), std::ofstream::trunc);
 
     fileStream << itemsConfigFile.str();
 
