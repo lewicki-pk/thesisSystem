@@ -25,7 +25,13 @@ public:
 protected:
 
     MQTTProxy();
+#ifndef UNIT_TEST
+    void init();
 
+    void disconnect();
+
+    MQTTClient client;
+#endif
     static MQTTProxy* _instance;
 
 };

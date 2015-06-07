@@ -1,13 +1,23 @@
 #include "MQTTProxy.hpp"
 
+#include "DebugLog.hpp"
+
 #define ADDRESS     "tcp://localhost:1883"
 #define CLIENTID    "ExampleClientPub"
 #define TIMEOUT     10000L
 
-MQTTProxy::MQTTProxy() { }
+MQTTProxy::MQTTProxy()
+{
+#ifndef UNIT_TEST
+    init();
+#endif
+}
 
 MQTTProxy::~MQTTProxy()
 {
+#ifndef UNIT_TEST
+    disconnect();
+#endif
     if (NULL != _instance)
         delete _instance;
 }
@@ -25,10 +35,25 @@ MQTTProxy* MQTTProxy::getInstance()
 bool MQTTProxy::publish(std::string topic, std::string payload)
 {
 #ifndef UNIT_TEST
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    int rc;
+
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_deliveryToken token;
+
+    pubmsg.payload = (void*)payload.c_str();
+    pubmsg.payloadlen = payload.length();
+    pubmsg.qos = 1;
+    pubmsg.retained = 0;
+    MQTTClient_publishMessage(client, topic.c_str(), &pubmsg, &token);
+
+    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
+
+    return rc;
+}
+
+void MQTTProxy::init()
+{
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     int rc;
 
     MQTTClient_create(&client, ADDRESS, CLIENTID,
@@ -38,19 +63,14 @@ bool MQTTProxy::publish(std::string topic, std::string payload)
 
     if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
     {
-
+        DEBUG_LOG("Connecting MQTTCliend failed");
     }
-    pubmsg.payload = (void*)payload.c_str();
-    pubmsg.payloadlen = payload.length();
-    pubmsg.qos = 1;
-    pubmsg.retained = 0;
-    MQTTClient_publishMessage(client, topic.c_str(), &pubmsg, &token);
+}
 
-    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
-
+void MQTTProxy::disconnect()
+{
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
-    return rc;
 #endif
 }
 
