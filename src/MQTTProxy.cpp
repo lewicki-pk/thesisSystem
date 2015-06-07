@@ -4,8 +4,27 @@
 #define CLIENTID    "ExampleClientPub"
 #define TIMEOUT     10000L
 
+MQTTProxy::MQTTProxy() { }
+
+MQTTProxy::~MQTTProxy()
+{
+    if (NULL != _instance)
+        delete _instance;
+}
+
+MQTTProxy* MQTTProxy::_instance = NULL;
+
+MQTTProxy* MQTTProxy::getInstance()
+{
+    if (NULL == _instance) {
+        _instance = new MQTTProxy;
+    }
+    return _instance;
+}
+
 bool MQTTProxy::publish(std::string topic, std::string payload)
 {
+#ifndef UNIT_TEST
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
@@ -32,4 +51,6 @@ bool MQTTProxy::publish(std::string topic, std::string payload)
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
     return rc;
+#endif
 }
+

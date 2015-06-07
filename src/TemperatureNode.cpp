@@ -1,9 +1,14 @@
 #include "TemperatureNode.hpp"
 #include <cstring>
-#include "MQTTProxy.hpp"
+
+TemperatureNode::TemperatureNode(IMQTTProxy* proxy) :
+    TemperatureNode()
+{
+    updater = proxy;
+}
 
 TemperatureNode::TemperatureNode() :
-    SensorNode(), lastReadingStatus(0)
+    SensorNode(), lastReadingStatus(0), updater(NULL)
 {
     Item emptyItem = {ElementType::TEXT, "", 0};
     nodeParametersMap.insert(std::pair<uint8_t, Item>(0, emptyItem));
@@ -12,7 +17,7 @@ TemperatureNode::TemperatureNode() :
 }
 
 TemperatureNode::TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t temperatureVal, uint8_t humidityVal, uint8_t lastReadingVal) :
-    SensorNode(nodeId, nodeType, location, nodeStatus), lastReadingStatus(lastReadingVal)
+    SensorNode(nodeId, nodeType, location, nodeStatus), lastReadingStatus(lastReadingVal), updater(NULL)
 {
     Item insertedItem = {ElementType::TEXT,  + "Status_" + std::to_string(nodeId), nodeStatus};
     nodeParametersMap.insert(std::pair<uint8_t, Item>(0, insertedItem));
@@ -33,7 +38,8 @@ std::map<uint8_t, Item> TemperatureNode::getNodeParametersMap()
     return nodeParametersMap;
 }
 
-void TemperatureNode::setNodeStatus(uint8_t newVal) {
+void TemperatureNode::setNodeStatus(uint8_t newVal)
+{
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(0);
     Item item = {ElementType::TEXT, "Status_" + std::to_string(getNodeId()), newVal};
     if (pair != nodeParametersMap.end())
@@ -42,34 +48,44 @@ void TemperatureNode::setNodeStatus(uint8_t newVal) {
         nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
 }
 
-void TemperatureNode::setTemperatureValue(uint8_t newVal) {
+void TemperatureNode::setTemperatureValue(uint8_t newVal)
+{
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(1);
     Item item = {ElementType::TEXT, "Temperature_" + std::to_string(getNodeId()), newVal};
     if (pair != nodeParametersMap.end())
         pair->second = item;
     else
         nodeParametersMap.insert(std::pair<uint8_t, Item>(1, item));
-    MQTTProxy proxy; proxy.publish("/Temperature/" + std::to_string(nodeId), std::to_string(newVal));
+
+    if (updater)
+        updater->publish("/Temperature/" + std::to_string(nodeId), std::to_string(newVal));
 
 }
 
-void TemperatureNode::setHumidityValue(uint8_t newVal) {
+void TemperatureNode::setHumidityValue(uint8_t newVal)
+{
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(2);
     Item item = {ElementType::TEXT, "Humidity_" + std::to_string(getNodeId()) , newVal};
     if (pair != nodeParametersMap.end())
         pair->second = item;
     else
         nodeParametersMap.insert(std::pair<uint8_t, Item>(2, item));
-    MQTTProxy proxy; proxy.publish("/Humidity/" + std::to_string(nodeId), std::to_string(newVal));
+
+    if (updater)
+        updater->publish("/Humidity/" + std::to_string(nodeId), std::to_string(newVal));
 }
 
-uint8_t TemperatureNode::getLastReadingStatus() {
+uint8_t TemperatureNode::getLastReadingStatus()
+{
     return lastReadingStatus;
 }
 
-void TemperatureNode::setLastReadingStatus(uint8_t newVal) {
+void TemperatureNode::setLastReadingStatus(uint8_t newVal){
+
     lastReadingStatus = newVal;
-    MQTTProxy proxy; proxy.publish("/Status/" + std::to_string(nodeId), std::to_string(newVal));
+
+    if (updater)
+        updater->publish("/Status/" + std::to_string(nodeId), std::to_string(newVal));
 }
 
 uint8_t TemperatureNode::getNodeId()
@@ -116,7 +132,7 @@ void TemperatureNode::updateValues(MsgData msgData)
         setTemperatureValue(msgData.tempSensorData.temperature);
         setHumidityValue(msgData.tempSensorData.humidity);
     }
-    lastReadingStatus = msgData.tempSensorData.result;
+    setLastReadingStatus(msgData.tempSensorData.result);
 }
 
 std::string TemperatureNode::generateItems()

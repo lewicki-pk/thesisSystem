@@ -1,12 +1,14 @@
 #pragma once
 
 #include "SensorNode.hpp"
+#include "MQTTProxy.hpp"
 
 class TemperatureNode : public SensorNode
 {
 public:
 
     TemperatureNode();
+    TemperatureNode(IMQTTProxy* proxy);
     TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t temperatureVal, uint8_t humidityVal, uint8_t lastReadingVal);
     TemperatureNode(const TemperatureNode&) = default;
     TemperatureNode(TemperatureNode&&) = default;
@@ -45,6 +47,8 @@ public:
 protected:
 
     uint8_t lastReadingStatus;
+
+    IMQTTProxy* updater;
 
 private:
 

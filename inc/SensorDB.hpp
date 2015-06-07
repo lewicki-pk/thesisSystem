@@ -17,14 +17,6 @@ public:
 
     virtual ~SensorDB();
 
-    //void setSensorNodeContainer(std::set<SensorNode*> new_var)   {
-    //    sensorNodeContainer = new_var;
-    //}
-
-    //std::set<SensorNode*> getSensorNodeContainer()   {
-    //    return sensorNodeContainer;
-    //}
-
     std::map<uint8_t, ISensorNode*>::iterator begin();
 
     std::map<uint8_t, ISensorNode*>::iterator end();

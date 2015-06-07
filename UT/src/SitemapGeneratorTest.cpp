@@ -29,7 +29,7 @@ TEST_F(SitemapGeneratorTest, generateSitemap_empty)
 TEST_F(SitemapGeneratorTest, generateSitemap_one_temperatureNode)
 {
     std::stringstream goldenSitemap;
-    goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame {\nText item=Status_1\nText item=Temperature_1\nText item=Humidity_1\n}\n}\n";
+    goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame label=\"Node 1\" {\nText item=Status_1\nText item=Temperature_1\nText item=Humidity_1\n}\n}\n";
 
     SitemapGenerator* testableGenerator = new SitemapGenerator();
 
@@ -53,7 +53,7 @@ TEST_F(SitemapGeneratorTest, generateSitemap_one_temperatureNode)
 TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes)
 {
     std::stringstream goldenSitemap;
-    goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame {\nText item=Status_1\nText item=Temperature_1\nText item=Humidity_1\n}\nFrame {\nText item=Status_2\nText item=Temperature_2\nText item=Humidity_2\n}\n}\n";
+    goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame label=\"Node 1\" {\nText item=Status_1\nText item=Temperature_1\nText item=Humidity_1\n}\nFrame label=\"Node 2\" {\nText item=Status_2\nText item=Temperature_2\nText item=Humidity_2\n}\n}\n";
 
     SitemapGenerator* testableGenerator = new SitemapGenerator();
 
@@ -86,7 +86,7 @@ TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes)
 TEST_F(SitemapGeneratorTest, generateSitemap_two_temperatureNodes_clone)
 {
     std::stringstream goldenSitemap;
-    goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame {\nText item=Status_1\nText item=Temperature_1\nText item=Humidity_1\n}\nFrame {\nText item=Status_2\nText item=Temperature_2\nText item=Humidity_2\n}\n}\n";
+    goldenSitemap << "sitemap thesisSystem label=\"Main Menu\" \n{\nFrame label=\"Node 1\" {\nText item=Status_1\nText item=Temperature_1\nText item=Humidity_1\n}\nFrame label=\"Node 2\" {\nText item=Status_2\nText item=Temperature_2\nText item=Humidity_2\n}\n}\n";
 
     SitemapGenerator* testableGenerator = new SitemapGenerator();
 

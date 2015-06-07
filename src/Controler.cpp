@@ -1,7 +1,8 @@
 #include <iostream>
 
-#include <Controler.hpp>
-#include <TemperatureNode.hpp>
+#include "Controler.hpp"
+#include "TemperatureNode.hpp"
+#include "MQTTProxy.hpp"
 
 #include <DebugLog.hpp>
 
@@ -70,11 +71,6 @@ void Controler::handleMessages()
     {
         DEBUG_LOG("Handling received Update Messages");
         Message msg = readingsContainer.front();
-        {
-            TempSensorData data = msg.msgData.tempSensorData;
-            std::cout << "received: status: " << data.result << ", temperature: " <<
-                data.temperature << " degrees, humidity: " << data.humidity << "%" << std::endl;
-        }
         sensorDB->updateReadings(msg);
         readingsContainer.pop();
     }
@@ -158,7 +154,7 @@ void Controler::createAndAddNode(Header hdr)
     switch (hdr.nodeType)
     {
     case 1 :
-        nodeToRegister = new TemperatureNode;
+        nodeToRegister = new TemperatureNode(MQTTProxy::getInstance());
         break;
     default :
         DEBUG_LOG("Unknown node type. Returning.");
