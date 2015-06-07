@@ -31,7 +31,7 @@ protected:
 private:
 
     void openSitemapHead();
-    void openSitemapFrame();
+    void openSitemapFrame(uint8_t nodeNumber);
     void closeTag();
     void addSitemapText(std::pair<uint8_t, Item> paramPair);
     std::string elementTypeToString(ElementType& typeToConvert);

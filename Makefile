@@ -19,6 +19,8 @@ CFLAGS+=-Wall
 # Add c++11 support
 CFLAGS+=-std=c++11 --coverage
 
+DEBUG = 
+
 # define all programs
 PROGRAMS = thesisSystem
 CPP_FILES = $(wildcard src/*.cpp)
@@ -34,7 +36,7 @@ INCLUDE+=-Iinc/paho
 all: ${PROGRAMS} move
 
 ${PROGRAMS}: ${OBJ_FILES}
-	${CXX} ${CFLAGS} ${INCLUDE} $^ -o $@ ${LDFLAGS}
+	${CXX} $(DEBUG) ${CFLAGS} ${INCLUDE} $^ -o $@ ${LDFLAGS}
 
 clean:
 	rm -rf bin/$(PROGRAMS)
@@ -48,5 +50,5 @@ move: ${PROGRAMS}
 	mv $(PROGRAMS) ./bin/
 
 obj/%.o: src/%.cpp
-	$(CXX) $(CFLAGS) $(INCLUDE) -c -o $@ $<
+	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -c -o $@ $<
 
