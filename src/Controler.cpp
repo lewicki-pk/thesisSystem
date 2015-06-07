@@ -55,8 +55,8 @@ void Controler::handleInitializations()
         DEBUG_LOG("Handling INITIALIZATION messages");
         Message msg = initsContainer.front();
         registerNode(msg);
-        initsContainer.pop();
         recreateConfigFiles = true;
+        initsContainer.pop();
     }
     if (recreateConfigFiles)
     {
@@ -108,6 +108,11 @@ void Controler::registerNode(Message msg)
     {
         DEBUG_LOG("This node has Id of " + std::to_string(hdr.nodeId) + " but was not found in DB. Replying with reset request");
         return replyWithResetRequest(hdr);
+    }
+    else
+    {
+        DEBUG_LOG("This node is already in DB. Replying with ACK"); //TODO add proper node type check
+        return replyWithAck(msg.header);
     }
 
     DEBUG_LOG("Adding new node to DB");
