@@ -21,7 +21,7 @@ void SitemapGenerator::generateSitemap()
     for (auto sensorItr = sensorDBPtr->begin();
             sensorItr != sensorDBPtr->end();
             sensorItr++) {
-        openSitemapFrame();
+        openSitemapFrame((*sensorItr).first);
 
         std::map<uint8_t, Item> sensorParameters = (*sensorItr).second->getNodeParametersMap();
         for (auto it = sensorParameters.begin(); it != sensorParameters.end(); it++) {
@@ -37,9 +37,9 @@ void SitemapGenerator::openSitemapHead()
     sitemapConfigFile << "sitemap thesisSystem label=\"Main Menu\" \n{\n";
 }
 
-void SitemapGenerator::openSitemapFrame()
+void SitemapGenerator::openSitemapFrame(uint8_t nodeNumber)
 {
-    sitemapConfigFile << "Frame {\n";
+    sitemapConfigFile << "Frame label=\"Node " << std::to_string(nodeNumber) << "\" {\n";
 }
 
 void SitemapGenerator::closeTag()
@@ -72,7 +72,7 @@ std::string SitemapGenerator::elementTypeToString(ElementType& typeToConvert) {
 bool SitemapGenerator::saveSitemapToFile(std::string filepath)
 {
     std::ofstream fileStream;
-    std::string sitemapFilePath = filepath + "/items/thesisSystem.items";
+    std::string sitemapFilePath = filepath + "/sitemaps/thesisSystem.sitemap";
     fileStream.open(sitemapFilePath.c_str(), std::ofstream::trunc);
 
     fileStream << sitemapConfigFile.str();
