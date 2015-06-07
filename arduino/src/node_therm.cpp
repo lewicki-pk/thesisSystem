@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <RF24.h>
+#include <EEPROM.h>
 #include <dht.h>
 
 #include <CommonMessages.hpp>
@@ -16,9 +17,13 @@ dht DHT;
 uint8_t thisNodeId = 0;
 uint8_t thisNodeType = 1;
 
+bool isInitialized = false;
+
+
 void initialize()
 {
     Serial.begin(9600);
+
     radio.begin();
     radio.setPALevel(RF24_PA_LOW);
     radio.setChannel(0x4c);
@@ -31,6 +36,12 @@ void initialize()
     radio.setAutoAck(true);
     radio.powerUp();
     radio.startListening();
+
+    uint8_t eepromId = EEPROM.read(1);
+    if (eepromId == 255)
+        thisNodeId = 0;
+    else
+        thisNodeId = eepromId;
 }
 
 void sendRegisterNodeReq()
@@ -53,10 +64,19 @@ void waitForRegisterNodeResp()
         // dump the payloads until we've got everything
         Message receivedData = {0};
         radio.read(&receivedData, sizeof(Message));
-        if ((receivedData.header.checksum == 1234) && (receivedData.header.msgType == static_cast<uint8_t>(MsgType::ACK_NACK)) && (receivedData.header.nodeId != 0))
+        if ((receivedData.header.msgType == static_cast<uint8_t>(MsgType::RESET_REQUEST)) && (receivedData.header.checksum == 1234))
+        {
+            thisNodeId = 0;
+            EEPROM.write(1, thisNodeId);
+            sendRegisterNodeReq();
+        }
+        else if ((receivedData.header.checksum == 1234) && (receivedData.header.msgType == static_cast<uint8_t>(MsgType::ACK_NACK)) && (receivedData.header.nodeId != 0))
         {
             thisNodeId = receivedData.header.nodeId;
-        } else
+            EEPROM.write(1, thisNodeId);
+            isInitialized = true;
+        }
+        else
         {
             sendRegisterNodeReq();
         }
@@ -94,7 +114,7 @@ void setup(void)
 {
     initialize();
     sendRegisterNodeReq();
-    while (thisNodeId == 0)
+    while (!isInitialized)
     {
         waitForRegisterNodeResp();
     }
