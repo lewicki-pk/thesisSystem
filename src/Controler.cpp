@@ -5,6 +5,7 @@
 
 #include <DebugLog.hpp>
 
+#define OPENHAB_RUNTIME_PATH "/home/pi/HABFiles/runtime/configurations"; //TODO parse it from some other config file
 
 Controler::Controler()
 #ifndef UNIT_TEST
@@ -58,7 +59,7 @@ void Controler::handleInitializations()
     }
     if (recreateConfigFiles)
     {
-        std::string openHabConfigRoot = "/home/lewiatan/openHAB-runtime/configurations"; //TODO filepaths in one place
+        std::string openHabConfigRoot = OPENHAB_RUNTIME_PATH;
         generateConfigFiles(openHabConfigRoot);
     }
 }
@@ -114,7 +115,6 @@ void Controler::registerNode(Message msg)
 
     DEBUG_LOG("Adding new node to DB");
     createAndAddNode(hdr);
-    replyWithAck(hdr);
 }
 
 void Controler::replyWithResetRequest(Header hdr)
@@ -159,6 +159,10 @@ void Controler::createAndAddNode(Header hdr)
     {
     case 1 :
         nodeToRegister = new TemperatureNode;
+        break;
+    default :
+        DEBUG_LOG("Unknown node type. Returning.");
+        return;
     }
     
     nodeToRegister->setNodeId(hdr.nodeId);
@@ -166,10 +170,12 @@ void Controler::createAndAddNode(Header hdr)
     nodeToRegister->setLocation(hdr.location);
 
     sensorDB->addSensorNode(nodeToRegister);
+    replyWithAck(hdr);
 }
 
 void Controler::generateConfigFiles(std::string filepath)
 {
+    DEBUG_LOG("Generating config files in openHAB path:" + filepath);
     sitemapGenerator.generateSitemap();
     sitemapGenerator.saveSitemapToFile(filepath);
 
