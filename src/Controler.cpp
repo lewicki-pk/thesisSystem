@@ -104,8 +104,9 @@ void Controler::registerNode(Message msg)
     if (!hdr.nodeId) {
         hdr.nodeId = sensorDB->getAvailableNodeId();
     }
-    else if (!sensorDB->isNodeInDB(hdr.nodeId)) {
-        DEBUG_LOG("This node has Id of " + std::to_string(hdr.nodeId) + "but was not found in DB. Replying with reset request");
+    else if (!sensorDB->isNodeInDB(hdr.nodeId)) 
+    {
+        DEBUG_LOG("This node has Id of " + std::to_string(hdr.nodeId) + " but was not found in DB. Replying with reset request");
         return replyWithResetRequest(hdr);
     }
 
