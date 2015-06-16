@@ -6,7 +6,7 @@
 
 #include <DebugLog.hpp>
 
-#define OPENHAB_RUNTIME_PATH "/home/pi/HABFiles/runtime/configurations"; //TODO parse it from some other config file
+#define OPENHAB_RUNTIME_PATH "/home/pi/openHAB/configurations"; //TODO parse it from some other config file
 
 Controler::Controler()
 #ifndef UNIT_TEST
@@ -33,7 +33,10 @@ void Controler::receiveMessages()
         case MsgType::ACK_NACK : //AckNack
             break;
         case MsgType::TEMP_SENSOR_DATA : //TemperatureNodeData
-            DEBUG_LOG("Received message of type TEMP_SENSOR_DATA");
+            DEBUG_LOG("Received message of type TEMP_SENSOR_DATA with values: temperature=" +
+                    std::to_string(receivedData.msgData.tempSensorData.temperature) + ", humidity=" +
+                    std::to_string(receivedData.msgData.tempSensorData.humidity) + ", last reading status=" +
+                    std::to_string(receivedData.msgData.tempSensorData.result));
             readingsContainer.push(receivedData);
             break;
         case MsgType::INITIALIZATION : //Initialization

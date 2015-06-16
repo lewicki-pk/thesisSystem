@@ -32,12 +32,14 @@ public:
     uint8_t getNodeStatus();
     void setNodeStatus(uint8_t newVal);
 
-    uint8_t getLastReadingStatus();
 
+    uint8_t getLastReadingStatus();
     void setLastReadingStatus(uint8_t newVal);
 
+    uint8_t getTemperatureValue();
     void setTemperatureValue(uint8_t newVal);
 
+    uint8_t getHumidityValue();
     void setHumidityValue(uint8_t newVal);
 
     void updateValues(MsgData msgData);

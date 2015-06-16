@@ -59,7 +59,6 @@ void TemperatureNode::setTemperatureValue(uint8_t newVal)
 
     if (updater)
         updater->publish("/Temperature/" + std::to_string(nodeId), std::to_string(newVal));
-
 }
 
 void TemperatureNode::setHumidityValue(uint8_t newVal)
@@ -126,13 +125,26 @@ uint8_t TemperatureNode::getNodeStatus()
     return nodeParametersMap.find(0)->second.itemValue;
 }
 
+uint8_t TemperatureNode::getTemperatureValue()
+{
+    return nodeParametersMap.find(1)->second.itemValue;
+}
+
+uint8_t TemperatureNode::getHumidityValue()
+{
+    return nodeParametersMap.find(2)->second.itemValue;
+}
+
 void TemperatureNode::updateValues(MsgData msgData)
 {
     if (0 == msgData.tempSensorData.result) {
-        setTemperatureValue(msgData.tempSensorData.temperature);
-        setHumidityValue(msgData.tempSensorData.humidity);
+        if (msgData.tempSensorData.temperature != getTemperatureValue())
+            setTemperatureValue(msgData.tempSensorData.temperature);
+        if (msgData.tempSensorData.humidity != getHumidityValue())
+            setHumidityValue(msgData.tempSensorData.humidity);
     }
-    setLastReadingStatus(msgData.tempSensorData.result);
+    if (msgData.tempSensorData.result != getLastReadingStatus())
+        setLastReadingStatus(msgData.tempSensorData.result);
 }
 
 std::string TemperatureNode::generateItems()
