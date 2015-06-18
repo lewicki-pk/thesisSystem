@@ -49,6 +49,7 @@ public:
 protected:
 
     uint8_t lastReadingStatus;
+    uint8_t retryCounter = 0;
 
     IMQTTProxy* updater;
 

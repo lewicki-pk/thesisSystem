@@ -4,6 +4,7 @@
 TemperatureNode::TemperatureNode(IMQTTProxy* proxy) :
     TemperatureNode()
 {
+    retryCounter = 0;
     updater = proxy;
 }
 
@@ -137,14 +138,20 @@ uint8_t TemperatureNode::getHumidityValue()
 
 void TemperatureNode::updateValues(MsgData msgData)
 {
-    if (0 == msgData.tempSensorData.result) {
-        if (msgData.tempSensorData.temperature != getTemperatureValue())
+    if (0 == msgData.tempSensorData.result)
+    {
+        if ((msgData.tempSensorData.temperature != getTemperatureValue()) || (retryCounter > 10))
             setTemperatureValue(msgData.tempSensorData.temperature);
-        if (msgData.tempSensorData.humidity != getHumidityValue())
+        if ((msgData.tempSensorData.humidity != getHumidityValue()) || (retryCounter > 10))
             setHumidityValue(msgData.tempSensorData.humidity);
     }
-    if (msgData.tempSensorData.result != getLastReadingStatus())
+    if ((msgData.tempSensorData.result != getLastReadingStatus()) || (retryCounter > 10))
         setLastReadingStatus(msgData.tempSensorData.result);
+
+    if (retryCounter > 10)
+        retryCounter = 0;
+
+    retryCounter++;
 }
 
 std::string TemperatureNode::generateItems()

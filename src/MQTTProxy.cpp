@@ -36,6 +36,7 @@ bool MQTTProxy::publish(std::string topic, std::string payload)
 {
 #ifndef UNIT_TEST
     DEBUG_LOG("Publishing to MQTTClient. Topic: " + topic + " and payload:" + payload);
+        init(); // temp
     int rc;
 
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
@@ -47,13 +48,14 @@ bool MQTTProxy::publish(std::string topic, std::string payload)
     pubmsg.retained = 0;
     while (0 != MQTTClient_publishMessage(client, topic.c_str(), &pubmsg, &token))
     {
-        DEBUG_LOG("Publishing to MQTTClient failed. Reconnecting and retrying once");
         disconnect();
         init();
+        DEBUG_LOG("Publishing to MQTTClient failed. Reconnecting and retrying once");
     }
 
     rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
 
+        disconnect(); // temp
     return rc;
 }
 
