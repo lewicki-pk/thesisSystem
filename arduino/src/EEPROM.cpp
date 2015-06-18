@@ -39,12 +39,21 @@
 
 uint8_t EEPROMClass::read(int address)
 {
-	return eeprom_read_byte((unsigned char *) address);
+    return eeprom_read_byte((unsigned char *) address);
 }
 
 void EEPROMClass::write(int address, uint8_t value)
 {
-	eeprom_write_byte((unsigned char *) address, value);
+    eeprom_write_byte((unsigned char *) address, value);
+}
+
+void EEPROMClass::update(int address, uint8_t value)
+{
+    uint8_t temporary_value = eeprom_read_byte((unsigned char *) address);
+    if (temporary_value != value)
+    {
+        eeprom_write_byte((unsigned char *) address, value);
+    }
 }
 
 EEPROMClass EEPROM;

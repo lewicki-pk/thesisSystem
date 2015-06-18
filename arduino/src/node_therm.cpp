@@ -4,12 +4,13 @@
 #include <EEPROM.h>
 #include <dht.h>
 
-#include <CommonMessages.hpp>
+#include "UniRadio.hpp"
+#include "CommonMessages.hpp"
 
 #define DHT11_PIN 5
 
 // ce,csn pins
-RF24 radio(9, 10);
+UniRadio radio(9, 10);
 
 //temperature and humidity sensor
 dht DHT;
@@ -24,18 +25,7 @@ void initialize()
 {
     Serial.begin(9600);
 
-    radio.begin();
-    radio.setPALevel(RF24_PA_LOW);
-    radio.setChannel(0x4c);
-
-    // open pipe for writing
-    radio.openWritingPipe(RASPI_READ_ADDR);
-    radio.openReadingPipe(1, RASPI_WRITE_ADDR);
-
-    radio.enableDynamicPayloads();
-    radio.setAutoAck(true);
-    radio.powerUp();
-    radio.startListening();
+    radio.setup();
 
     uint8_t eepromId = EEPROM.read(1);
     if (eepromId == 255)
@@ -52,28 +42,24 @@ void sendRegisterNodeReq()
     message.header = header;
     message.msgData = {0};
 
-    radio.stopListening();
-    radio.write(&message, sizeof(message));
-    radio.startListening();
+    radio.sendMessage(message);
 }
 
 void waitForRegisterNodeResp()
 {
-    if (radio.available())
+    if (radio.isAvailable())
     {
-        // dump the payloads until we've got everything
-        Message receivedData = {0};
-        radio.read(&receivedData, sizeof(Message));
+        Message receivedData = radio.getMessage();
         if ((receivedData.header.msgType == static_cast<uint8_t>(MsgType::RESET_REQUEST)) && (receivedData.header.checksum == 1234))
         {
             thisNodeId = 0;
-            EEPROM.write(1, thisNodeId);
+            EEPROM.update(1, thisNodeId);
             sendRegisterNodeReq();
         }
         else if ((receivedData.header.checksum == 1234) && (receivedData.header.msgType == static_cast<uint8_t>(MsgType::ACK_NACK)) && (receivedData.header.nodeId != 0))
         {
             thisNodeId = receivedData.header.nodeId;
-            EEPROM.write(1, thisNodeId);
+            EEPROM.update(1, thisNodeId);
             isInitialized = true;
         }
         else
@@ -98,16 +84,13 @@ void readAndSendValues()
     message.header = header;
     message.msgData.tempSensorData = (dhtData);
 
-    radio.stopListening();
-    radio.write(&message, sizeof(message));
-    radio.startListening();
+    radio.sendMessage(message);
 
-    {
-        Serial.println(dhtData.result);
-        Serial.println(dhtData.temperature);
-        Serial.println(dhtData.humidity);
-        Serial.println("--------------");
-    }
+    // Print debug logs
+    Serial.println(dhtData.result);
+    Serial.println(dhtData.temperature);
+    Serial.println(dhtData.humidity);
+    Serial.println("--------------");
 }
 
 void setup(void)
@@ -127,7 +110,7 @@ void loop(void)
     readAndSendValues();
 
     // pause a second
-    delay(1000);
+    delay(5000);
     digitalWrite(13, LOW);
-    delay(1000);
+    delay(5000);
 }
