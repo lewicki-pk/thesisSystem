@@ -21,21 +21,34 @@ PORT=/dev/ttyACM0
 
 default: node_therm
 
+CPP_FILES := $(filter-out src/node_%.cpp, $(wildcard src/*.cpp))
+OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
+
+#node_therm rules
 node_therm: node_therm.hex
 
-#TODO: fix these two below
 node_therm.hex: node_therm.elf
 	avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom-0 $< $@
 	avr-objcopy -O ihex -R .eeprom $< $@
 
-CPP_FILES = $(wildcard src/*.cpp)
-OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
-
-node_therm.elf: $(OBJ_FILES)
+node_therm.elf: $(OBJ_FILES) obj/node_therm.o
 	$(LD) -w -Os -Wl,--gc-sections -mmcu=atmega328p -o $@ $^ $(LD_FLAGS)
 
 upload_therm:
 	avrdude -F -p atmega328p -c arduino -b 57600 -Uflash:w:node_therm.hex:i -P$(PORT)
+
+#node_pir rules
+node_pir: node_pir.hex
+
+node_pir.hex: node_pir.elf
+	avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom-0 $< $@
+	avr-objcopy -O ihex -R .eeprom $< $@
+
+node_pir.elf: $(OBJ_FILES) obj/node_pir.o
+	$(LD) -w -Os -Wl,--gc-sections -mmcu=atmega328p -o $@ $^ $(LD_FLAGS)
+
+upload_pir:
+	avrdude -F -p atmega328p -c arduino -b 57600 -Uflash:w:node_pir.hex:i -P$(PORT)
 
 clean:
 	@echo -n Cleaning ...
@@ -43,8 +56,10 @@ clean:
 	$(shell rm *.hex 2> /dev/null)
 	$(shell rm obj/*.o 2> /dev/null)
 	$(shell rm obj/*.d 2> /dev/null)
+	$(shell tags_clear 2> /dev/null)
 	@echo " done"
 
+#general rule for cpp files
 obj/%.o: src/%.cpp
 	$(CXX) $(CFLAGS) $(INCLUDE) -c -o $@ $<
 

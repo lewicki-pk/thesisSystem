@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <EEPROM.h>
-#include <dht.h>
 
 #include "UniRadio.hpp"
 #include "CommonMessages.hpp"
@@ -10,11 +9,9 @@
 // ce,csn pins
 UniRadio radio(9, 10);
 
-//temperature and humidity sensor
-dht DHT;
 
 uint8_t thisNodeId = 0;
-uint8_t thisNodeType = 1; // nodeType 1 = tempSensor, 2 = PIR sensor
+uint8_t thisNodeType = 2; // nodeType 1 = tempSensor, 2 = PIR sensor
 
 bool isInitialized = false;
 
@@ -70,17 +67,14 @@ void waitForRegisterNodeResp()
 
 void readAndSendValues()
 {
-    Header header = {thisNodeId, thisNodeType, 0, static_cast<uint8_t>(MsgType::TEMP_SENSOR_DATA), 12345, Status::ok};
+    Header header = {thisNodeId, thisNodeType, 0, static_cast<uint8_t>(MsgType::PIR_VALUE), 12345, Status::ok};
 
-    TempSensorData dhtData;
-    dhtData.result = DHT.read11(DHT11_PIN);
-    dhtData.humidity = (int)DHT.humidity;
-    dhtData.temperature = (int)DHT.temperature;
-
+    PirSensorData pirData;
+    pirData.result = digitalRead(5);
 
     Message message = {0};
     message.header = header;
-    message.msgData.tempSensorData = (dhtData);
+    message.msgData.pirSensorData = (pirData);
 
     radio.sendMessage(message);
 }
@@ -101,8 +95,9 @@ void loop(void)
 
     readAndSendValues();
 
-    // pause few seconds
-    delay(5000);
+    // pause a few seconds
+    delay(4000);
     digitalWrite(13, LOW);
-    delay(5000);
+    delay(4000);
 }
+

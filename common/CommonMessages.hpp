@@ -17,6 +17,11 @@ struct TempSensorData
     uint32_t humidity;
 }__attribute__((packed));
 
+struct PirSensorData
+{
+    uint32_t result;
+}__attribute__((packed));
+
 enum class AckNack : uint8_t
 {
     NACK,
@@ -36,6 +41,7 @@ enum class MsgType : uint8_t
     RESET_REQUEST,
     ACK_NACK,
     TEMP_SENSOR_DATA,
+    PIR_VALUE,
 };
 
 struct Header
@@ -53,6 +59,7 @@ union MsgData
     InitMsgData initMsgData;
     AckNack ackNack;
     TempSensorData tempSensorData;
+    PirSensorData pirSensorData;
 }__attribute__((packed));
 
 struct Message
