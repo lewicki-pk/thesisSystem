@@ -39,6 +39,11 @@ void Controler::receiveMessages()
                     std::to_string(receivedData.msgData.tempSensorData.result));
             readingsContainer.push(receivedData);
             break;
+        case MsgType::PIR_VALUE : //PirSensorData
+            DEBUG_LOG("Received message of type PIR_SENSOR_DATA with value=" +
+                    std::to_string(receivedData.msgData.pirSensorData.result));
+            //readingsContainer.push(receivedData);
+            break;
         case MsgType::INITIALIZATION : //Initialization
             DEBUG_LOG("Received message of type INITIALIZATION");
             initsContainer.push(receivedData);
