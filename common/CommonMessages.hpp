@@ -41,7 +41,7 @@ enum class MsgType : uint8_t
     RESET_REQUEST,
     ACK_NACK,
     TEMP_SENSOR_DATA,
-    PIR_VALUE,
+    PIR_SENSOR_VALUE,
 };
 
 struct Header

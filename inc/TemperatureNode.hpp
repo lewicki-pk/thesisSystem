@@ -32,7 +32,6 @@ public:
     uint8_t getNodeStatus();
     void setNodeStatus(uint8_t newVal);
 
-
     uint8_t getLastReadingStatus();
     void setLastReadingStatus(uint8_t newVal);
 

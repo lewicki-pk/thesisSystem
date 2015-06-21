@@ -2,6 +2,7 @@
 
 #include "Controler.hpp"
 #include "TemperatureNode.hpp"
+#include "PirNode.hpp"
 #include "MQTTProxy.hpp"
 
 #include <DebugLog.hpp>
@@ -39,10 +40,10 @@ void Controler::receiveMessages()
                     std::to_string(receivedData.msgData.tempSensorData.result));
             readingsContainer.push(receivedData);
             break;
-        case MsgType::PIR_VALUE : //PirSensorData
+        case MsgType::PIR_SENSOR_VALUE : //PirSensorData
             DEBUG_LOG("Received message of type PIR_SENSOR_DATA with value=" +
                     std::to_string(receivedData.msgData.pirSensorData.result));
-            //readingsContainer.push(receivedData);
+            readingsContainer.push(receivedData);
             break;
         case MsgType::INITIALIZATION : //Initialization
             DEBUG_LOG("Received message of type INITIALIZATION");
@@ -109,7 +110,7 @@ void Controler::registerNode(Message msg)
 {
     Header hdr = msg.header;
 
-    if (!hdr.nodeId) {
+    if (0 == hdr.nodeId) {
         hdr.nodeId = sensorDB->getAvailableNodeId();
     }
     else if (!sensorDB->isNodeInDB(hdr.nodeId)) 
@@ -167,8 +168,13 @@ void Controler::createAndAddNode(Header hdr)
     SensorNode* nodeToRegister = nullptr;
     switch (hdr.nodeType)
     {
-    case 1 :
+    case 1 : // temperatureNode
+        DEBUG_LOG("Added new temperature node with id=" + std::to_string(hdr.nodeId));
         nodeToRegister = new TemperatureNode(MQTTProxy::getInstance());
+        break;
+    case 2 : // pirNode
+        DEBUG_LOG("Added new pir node with id=" + std::to_string(hdr.nodeId));
+        nodeToRegister = new PirNode(MQTTProxy::getInstance());
         break;
     default :
         DEBUG_LOG("Unknown node type. Returning.");
