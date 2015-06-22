@@ -48,10 +48,13 @@ size_t SensorDB::getSize()
     return sensorNodeContainer.size();
 }
 
-bool SensorDB::isNodeInDB(uint8_t id)
+bool SensorDB::isNodeInDB(Header header)
 {
-    auto iterator = sensorNodeContainer.find(id);
-    return iterator != sensorNodeContainer.end() ? true : false;
+    auto iterator = sensorNodeContainer.find(header.nodeId);
+    if ((iterator != sensorNodeContainer.end()) && (header.nodeType == iterator->second->getNodeType()))
+        return true;
+    else
+        return false;
 }
 
 uint8_t SensorDB::getAvailableNodeId()

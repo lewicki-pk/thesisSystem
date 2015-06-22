@@ -22,7 +22,7 @@ public:
     std::map<uint8_t, ISensorNode*>::iterator end();
 
     size_t getSize();
-    bool isNodeInDB(uint8_t id);
+    bool isNodeInDB(Header header);
     uint8_t getAvailableNodeId();
 
     bool addSensorNode(ISensorNode* newNode);

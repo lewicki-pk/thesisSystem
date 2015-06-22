@@ -32,7 +32,7 @@ public:
     void handleMessages();
 
     // TODO make private and rewrite the test
-    void registerNode(Message msg);
+    bool registerNode(Message msg);
 
     void replyWithResetRequest(Header hdr);
 

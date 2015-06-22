@@ -20,7 +20,7 @@ public:
     virtual void handleMessages() =0;
 
     // TODO make private and rewrite the test
-    virtual void registerNode(Message msg) =0;
+    virtual bool registerNode(Message msg) =0;
 
     virtual void replyWithResetRequest(Header hdr) =0;
 

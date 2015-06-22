@@ -106,26 +106,29 @@ void Controler::setupConnection()
     sensorDB = SensorDB::getInstance();
 }
 
-void Controler::registerNode(Message msg)
+bool Controler::registerNode(Message msg)
 {
     Header hdr = msg.header;
 
     if (0 == hdr.nodeId) {
         hdr.nodeId = sensorDB->getAvailableNodeId();
     }
-    else if (!sensorDB->isNodeInDB(hdr.nodeId)) 
+    else if (!sensorDB->isNodeInDB(hdr))
     {
         DEBUG_LOG("This node has Id of " + std::to_string(hdr.nodeId) + " but was not found in DB. Replying with reset request");
-        return replyWithResetRequest(hdr);
+        replyWithResetRequest(hdr);
+        return false;
     }
     else
     {
         DEBUG_LOG("This node is already in DB. Replying with ACK"); //TODO add proper node type check
-        return replyWithAck(msg.header);
+        replyWithAck(msg.header);
+        return false;
     }
 
     DEBUG_LOG("Adding new node to DB");
     createAndAddNode(hdr);
+    return true;
 }
 
 void Controler::replyWithResetRequest(Header hdr)
