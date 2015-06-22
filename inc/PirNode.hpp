@@ -9,7 +9,7 @@ public:
 
     PirNode();
     PirNode(IMQTTProxy* proxy);
-    PirNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t presenceVal);
+    PirNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus);
     PirNode(const PirNode&) = default;
     PirNode(PirNode&&) = default;
     PirNode& operator=(const PirNode&) & = default;
@@ -31,9 +31,6 @@ public:
 
     uint8_t getNodeStatus();
     void setNodeStatus(uint8_t newVal);
-
-    uint8_t getPresenceStatus();
-    void setPresenceStatus(uint8_t newVal);
 
     void updateValues(MsgData msgData);
 
