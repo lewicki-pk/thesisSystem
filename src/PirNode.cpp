@@ -14,10 +14,10 @@ PirNode::PirNode() :
     nodeParametersMap.insert(std::pair<uint8_t, Item>(0, emptyItem));
 }
 
-PirNode::PirNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus) :
+PirNode::PirNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t readingVal) :
     SensorNode(nodeId, nodeType, location, nodeStatus), updater(NULL)
 {
-    Item insertedItem = {ElementType::TEXT,  + "Presence_" + std::to_string(nodeId), nodeStatus};
+    Item insertedItem = {ElementType::TEXT,  + "Presence_" + std::to_string(nodeId), readingVal};
     nodeParametersMap.insert(std::pair<uint8_t, Item>(0, insertedItem));
 }
 
@@ -29,6 +29,10 @@ std::map<uint8_t, Item> PirNode::getNodeParametersMap()
 }
 
 void PirNode::setNodeStatus(uint8_t newVal)
+{
+    nodeStatus = newVal;
+}
+void PirNode::setPresenceStatus(uint8_t newVal)
 {
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(0);
     Item item = {ElementType::TEXT, "Presence_" + std::to_string(getNodeId()), newVal};
@@ -46,8 +50,7 @@ uint8_t PirNode::getNodeId()
 void PirNode::setNodeId(uint8_t newVal)
 {
     nodeId = newVal;
-    nodeParametersMap.find(0)->second.itemName = "Status_" + std::to_string(getNodeId());
-    nodeParametersMap.find(1)->second.itemName = "Presence_" + std::to_string(getNodeId());
+    nodeParametersMap.find(0)->second.itemName = "Presence_" + std::to_string(getNodeId());
 }
 
 uint8_t PirNode::getNodeType()
@@ -71,6 +74,11 @@ void PirNode::setLocation(uint8_t newVal)
 }
 
 uint8_t PirNode::getNodeStatus()
+{
+    return nodeStatus;
+}
+
+uint8_t PirNode::getPresenceStatus()
 {
     return nodeParametersMap.find(0)->second.itemValue;
 }

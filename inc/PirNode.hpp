@@ -9,7 +9,7 @@ public:
 
     PirNode();
     PirNode(IMQTTProxy* proxy);
-    PirNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus);
+    PirNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nodeStatus, uint8_t readingVal);
     PirNode(const PirNode&) = default;
     PirNode(PirNode&&) = default;
     PirNode& operator=(const PirNode&) & = default;
@@ -21,16 +21,24 @@ public:
     std::map<uint8_t, Item> getNodeParametersMap();
 
     uint8_t getNodeId();
-    void setNodeId(uint8_t newVal);
 
     uint8_t getNodeType();
-    void setNodeType(uint8_t newVal);
 
     uint8_t getLocation();
-    void setLocation(uint8_t newVal);
 
     uint8_t getNodeStatus();
+
+    uint8_t getPresenceStatus();
+
+    void setNodeId(uint8_t newVal);
+
+    void setNodeType(uint8_t newVal);
+
+    void setLocation(uint8_t newVal);
+
     void setNodeStatus(uint8_t newVal);
+
+    void setPresenceStatus(uint8_t newVal);
 
     void updateValues(MsgData msgData);
 

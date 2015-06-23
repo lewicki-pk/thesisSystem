@@ -41,6 +41,7 @@ std::map<uint8_t, Item> TemperatureNode::getNodeParametersMap()
 
 void TemperatureNode::setNodeStatus(uint8_t newVal)
 {
+    nodeStatus = newVal;
     std::map<const uint8_t, Item>::iterator pair = nodeParametersMap.find(0);
     Item item = {ElementType::TEXT, "Status_" + std::to_string(getNodeId()), newVal};
     if (pair != nodeParametersMap.end())
@@ -123,7 +124,7 @@ void TemperatureNode::setLocation(uint8_t newVal)
 
 uint8_t TemperatureNode::getNodeStatus()
 {
-    return nodeParametersMap.find(0)->second.itemValue;
+    return nodeStatus;
 }
 
 uint8_t TemperatureNode::getTemperatureValue()
