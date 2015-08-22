@@ -23,11 +23,6 @@ PirNode::PirNode(uint8_t nodeId, uint8_t nodeType, uint8_t location, uint8_t nod
 
 PirNode::~PirNode() { }
 
-std::map<uint8_t, Item> PirNode::getNodeParametersMap()
-{
-    return nodeParametersMap;
-}
-
 void PirNode::setNodeStatus(uint8_t newVal)
 {
     nodeStatus = newVal;

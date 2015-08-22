@@ -34,11 +34,6 @@ TemperatureNode::TemperatureNode(uint8_t nodeId, uint8_t nodeType, uint8_t locat
 
 TemperatureNode::~TemperatureNode() { }
 
-std::map<uint8_t, Item> TemperatureNode::getNodeParametersMap()
-{
-    return nodeParametersMap;
-}
-
 void TemperatureNode::setNodeStatus(uint8_t newVal)
 {
     nodeStatus = newVal;
