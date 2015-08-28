@@ -32,6 +32,8 @@ public:
 
     std::string generateItems() =0;
 
+    std::map<uint8_t, Item> getNodeParametersMap();
+
 protected:
 
     uint8_t nodeId;

@@ -29,3 +29,8 @@ bool SensorNode::isEqualTo(const SensorNode& sn)
     else
         return false;
 }
+
+std::map<uint8_t, Item> SensorNode::getNodeParametersMap()
+{
+    return nodeParametersMap;
+}

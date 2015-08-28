@@ -18,8 +18,6 @@ public:
 
     bool operator< (const SensorNode& toCompare);
 
-    std::map<uint8_t, Item> getNodeParametersMap();
-
     uint8_t getNodeId();
     void setNodeId(uint8_t newVal);
 
