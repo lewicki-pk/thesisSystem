@@ -40,6 +40,9 @@ void PirNode::setPresenceStatus(uint8_t newVal)
         pair->second = item;
     else
         nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
+
+    if (updater)
+        updater->publish("/Presence/" + std::to_string(nodeId), std::to_string(newVal));
 }
 
 uint8_t PirNode::getNodeId()
@@ -85,8 +88,8 @@ uint8_t PirNode::getPresenceStatus()
 
 void PirNode::updateValues(MsgData msgData)
 {
-    if (msgData.pirSensorData.result != getNodeStatus())
-        setNodeStatus(msgData.pirSensorData.result);
+    if (msgData.pirSensorData.result != getPresenceStatus())
+        setPresenceStatus(msgData.pirSensorData.result);
 }
 
 std::string PirNode::generateItems()
