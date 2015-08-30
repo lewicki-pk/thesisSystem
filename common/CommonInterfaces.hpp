@@ -10,6 +10,6 @@ struct Item
 {
     ElementType elementType;
     std::string itemName;
-    uint8_t itemValue;
+    uint16_t itemValue;
 };
 
