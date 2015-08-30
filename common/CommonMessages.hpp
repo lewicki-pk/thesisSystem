@@ -50,6 +50,7 @@ enum class MsgType : uint8_t
     ACK_NACK,
     TEMP_SENSOR_DATA,
     PIR_SENSOR_VALUE,
+    SMOKE_SENSOR_DATA,
 };
 
 struct Header

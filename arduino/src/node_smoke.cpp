@@ -69,7 +69,7 @@ void waitForRegisterNodeResp()
 
 void readAndSendValues()
 {
-    Header header = {thisNodeId, thisNodeType, 0, static_cast<uint8_t>(MsgType::TEMP_SENSOR_DATA), 12345, Status::ok};
+    Header header = {thisNodeId, thisNodeType, 0, static_cast<uint8_t>(MsgType::SMOKE_SENSOR_DATA), 12345, Status::ok};
 
     SmokeSensorData smokeData;
     smokeData.result1 = analogRead(gasPin);

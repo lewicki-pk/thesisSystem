@@ -3,6 +3,7 @@
 #include "Controler.hpp"
 #include "TemperatureNode.hpp"
 #include "PirNode.hpp"
+#include "SmokeNode.hpp"
 #include "MQTTProxy.hpp"
 
 #include <DebugLog.hpp>
@@ -43,6 +44,13 @@ void Controler::receiveMessages()
         case MsgType::PIR_SENSOR_VALUE : //PirSensorData
             DEBUG_LOG("Received message of type PIR_SENSOR_DATA with value=" +
                     std::to_string(receivedData.msgData.pirSensorData.result));
+            readingsContainer.push(receivedData);
+            break;
+        case MsgType::SMOKE_SENSOR_DATA : //PirSensorData
+            DEBUG_LOG("Received message of type SMOKE_SENSOR_DATA with values =" +
+                    std::to_string(receivedData.msgData.smokeSensorData.result1) + ", " +
+                    std::to_string(receivedData.msgData.smokeSensorData.result2) + ", " +
+                    std::to_string(receivedData.msgData.smokeSensorData.result3));
             readingsContainer.push(receivedData);
             break;
         case MsgType::INITIALIZATION : //Initialization
@@ -178,6 +186,10 @@ void Controler::createAndAddNode(Header hdr)
     case 2 : // pirNode
         DEBUG_LOG("Added new pir node with id=" + std::to_string(hdr.nodeId));
         nodeToRegister = new PirNode(MQTTProxy::getInstance());
+        break;
+    case 3 : // smokeNode
+        DEBUG_LOG("Added new smoke node with id=" + std::to_string(hdr.nodeId));
+        nodeToRegister = new SmokeNode(MQTTProxy::getInstance());
         break;
     default :
         DEBUG_LOG("Unknown node type. Returning.");
