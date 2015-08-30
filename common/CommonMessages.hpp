@@ -22,6 +22,14 @@ struct PirSensorData
     uint32_t result;
 }__attribute__((packed));
 
+struct SmokeSensorData
+{
+    uint16_t result1;
+    uint16_t result2;
+    uint16_t result3;
+}__attribute__((packed));
+
+
 enum class AckNack : uint8_t
 {
     NACK,
@@ -60,6 +68,7 @@ union MsgData
     AckNack ackNack;
     TempSensorData tempSensorData;
     PirSensorData pirSensorData;
+    SmokeSensorData smokeSensorData;
 }__attribute__((packed));
 
 struct Message

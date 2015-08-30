@@ -50,6 +50,19 @@ node_pir.elf: $(OBJ_FILES) obj/node_pir.o
 upload_pir:
 	avrdude -F -p atmega328p -c arduino -b 57600 -Uflash:w:node_pir.hex:i -P$(PORT)
 
+#node_smoke rules
+node_smoke: node_smoke.hex
+
+node_smoke.hex: node_smoke.elf
+	avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom-0 $< $@
+	avr-objcopy -O ihex -R .eeprom $< $@
+
+node_smoke.elf: $(OBJ_FILES) obj/node_smoke.o
+	$(LD) -w -Os -Wl,--gc-sections -mmcu=atmega328p -o $@ $^ $(LD_FLAGS)
+
+upload_smoke:
+	avrdude -F -p atmega328p -c arduino -b 57600 -Uflash:w:node_smoke.hex:i -P$(PORT)
+
 clean:
 	@echo -n Cleaning ...
 	$(shell rm *.elf 2> /dev/null)
