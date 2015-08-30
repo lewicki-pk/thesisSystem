@@ -71,8 +71,7 @@ void Controler::handleInitializations()
     {
         DEBUG_LOG("Handling INITIALIZATION messages");
         Message msg = initsContainer.front();
-        registerNode(msg);
-        recreateConfigFiles = true;
+        recreateConfigFiles |= registerNode(msg);
         initsContainer.pop();
     }
     if (recreateConfigFiles)
