@@ -85,7 +85,7 @@ void Controler::handleMessages()
 {
     if (!readingsContainer.empty())
     {
-        DEBUG_LOG("Handling received Update Messages");
+        //DEBUG_LOG("Handling received Update Messages");
         Message msg = readingsContainer.front();
         sensorDB->updateReadings(msg);
         readingsContainer.pop();

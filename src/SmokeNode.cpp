@@ -39,7 +39,7 @@ void SmokeNode::setSmokeValue(uint16_t newVal)
         nodeParametersMap.insert(std::pair<uint8_t, Item>(0, item));
 
     if (updater)
-        updater->publish("/Smoke/" + std::to_string(nodeId), std::to_string(newVal));
+        updater->publish("/Smoke/" + std::to_string(nodeId), std::to_string((newVal*100)/1024));
 }
 
 uint8_t SmokeNode::getNodeId()
